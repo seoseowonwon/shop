@@ -1,99 +1,190 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
 <%@ page import="java.sql.*"%>
-<%@ page import="java.util.*"%>
+<%@ page import="java.util.*" %>
 
-
-<!-- Controller Layer -->
-
+<!-- Controller layer -->
 <%
-	// ì¸ì¦ë¶„ê¸°	 : ì„¸ì…˜ë³€ìˆ˜ ì´ë¦„ - loginEmp
-	if(session.getAttribute("loginEmp") != null) {
+	// ÀÎÁõ ºĞ±â  
+	if(session.getAttribute("loginEmp")== null){
 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
 		return;
 	}
-%>
+	
+	Connection conn = null;
+	Class.forName("org.mariadb.jdbc.Driver");
+	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
+	
+	String sql = "SELECT emp_name empName, emp_job empJob, create_date createDate FROM emp WHERE active='OFF'";
+	PreparedStatement stmt = null;
+	ResultSet rs = null; 
+	stmt = conn.prepareStatement(sql);	
+	rs = stmt.executeQuery();
+
+	
+%>    
 
 <%
-	// request ë¶„ì„
+	//ÇöÀç ÆäÀÌÁö °ª 
 	int currentPage = 1;
-	if(request.getParameter("currentPage") != null) {
+	if(request.getParameter("currentPage") != null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 	
+	// ÇÑ ÆäÀÌÁö¿¡ º¸ÀÌ´Â ÀÎ¿ø¼ö
 	int rowPerPage = 10;
-	int startRow = (currentPage-1)*rowPerPage;
+	
+	// DB¿¡¼­ ½ÃÀÛ ÆäÀÌÁö °ª ¼³Á¤ = (ÇöÀç ÆäÀÌÁö-1) *   ÇÑ ÆäÀÌÁö¿¡ º¸ÀÌ´Â ÀÎ¿ø¼ö
+	int startRow = (currentPage-1)* rowPerPage;
+	
+	
+	//ÀüÃ¼ È¸¿øÀÇ ¼ö ±¸ÇÏ±â
+	String sql3 = "SELECT count(*) cnt FROM emp WHERE emp_id LIKE '%%'";
+	PreparedStatement stmt3 = null;
+	ResultSet rs3 = null; 
+	stmt3 = conn.prepareStatement(sql3);
+	rs3 = stmt3.executeQuery();
+	
+	// ÀüÃ¼ È¸¿ø¼ö 
+	int totalRow = 0;
+	
+	if(rs3.next()){
+		totalRow = rs3.getInt("cnt");
+	}
+	
+	// ¸¶Áö¸· ÆäÀÌÁö °è»êÇÏ±â = ÀüÃ¼ È¸¿ø¼ö / ÇÑ ÆäÀÌÁö¿¡¼­ º¸ÀÌ´Â ÀÎ¿ø¼ö
+	int lastPage = totalRow / rowPerPage;
+	
+	//ÀÎ¿ø¼ö°¡ ³²À» ¶§ ¸¶Áö¸· ÆäÀÌÁö´Â +1 ÇØÁØ´Ù. 
+	//¿¹) È¸¿ø¼ö°¡ 11¸íÀÌ¶ó¸é ÇÑ ÆäÀÌÁö´ç 10¸í¾¿ 1ÆäÀÌÁö°¡ ³ª¿Í¾ßÇÏ´Âµ¥ 1¸íÀÌ ´õ ÀÖ±â ¶§¹®¿¡ ÃÑ ÆäÀÌÁö´Â 2ÆäÀÌÁö°¡ µÈ´Ù.
+	if(totalRow % rowPerPage != 0){
+		lastPage = lastPage +1 ;
+	}
+	
+	
+	//System.out.println(lastPage + " lastPage È¸¿øº¸±â ÆäÀÌÁö");
+	//System.out.println(totalRow + "<----totalRow ÀüÃ¼ È¸¿ø¼ö ");
+	//System.out.println(rowPerPage + "<----rowPerPage ÇÑ ÆäÀÌÁö´ç º¸°í½ÍÀº ÀÎ¿ø¼ö");
+	//System.out.println(startRow);
+	//System.out.println(rowPerPage);
 %>
 
-<!-- Model Layer -->
-
+<!-- model layer -->
 <%
-	// íŠ¹ìˆ˜í•œ í˜•íƒœì˜ ë°ì´í„°(RDBMS:mariadb) 
-	// -> APIì‚¬ìš©(JDBC API)í•˜ì—¬ ìë£Œêµ¬ì¡°(ResultSet) ì·¨ë“ 
-	// -> ì¼ë°˜í™”ëœ ìë£Œêµ¬ì¡°(ArrayList<HashMap>)ë¡œ ë³€ê²½ -> ëª¨ë¸ ì·¨ë“
+	//Æ¯¼öÇÑ ÇüÅÂÀÇ ÀÚ·á±¸Á¶ RDBMS : maradb 
+	//-> API»ç¿ë(JDBC API)ÇÏ¿© ÀÚ·á±¸Á¶(ResultSet) Ãëµæ 
+	//-> ÀÏ¹İÈ­µÈ ÀÚ·á±¸Á¶ (ArrayList<HashMap>) ·Î º¯°æ -> ¸ğµ¨ Ãëµæ
+	
 	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	PreparedStatement stmt = null;
-	ResultSet rs = null;
-	String sql = "select emp_id empId, emp_name empName, emp_job empJob, hire_date hireDate, active from emp order by hire_date desc limit ?, ?";
-	conn = DriverManager.getConnection(
-			"jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-	stmt = conn.prepareStatement(sql);
-	stmt.setInt(1, startRow);
-	stmt.setInt(2, rowPerPage);
-	rs = stmt.executeQuery(); 
-	// JDBC API ì¢…ì†ëœ ìë£Œêµ¬ì¡° ëª¨ë¸ ResultSet  -> ê¸°ë³¸ API ìë£Œêµ¬ì¡°(ArrayList)ë¡œ ë³€ê²½
+	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
+
+	String sql2 = "SELECT emp_id empId, emp_name empName, emp_job empJob, hire_date hireDate, active FROM emp ORDER BY hire_date DESC limit ?,?";
+	PreparedStatement stmt2 = null;
+	ResultSet rs2 = null; 
+	stmt2 = conn.prepareStatement(sql2);
+	stmt2.setInt(1, startRow);
+	stmt2.setInt(2, rowPerPage);
+	rs2 = stmt2.executeQuery(); // JDBC API Á¾¼ÓµÈ ÀÚ·á±¸Á¶ ¸ğµ¨ ResultSet -> ±âº» API ÀÚ·á±¸Á¶(ArrayList)·Î º¯°æ
 	
-	ArrayList<HashMap<String, Object>> list
-		= new ArrayList<HashMap<String, Object>>();
+	ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();   // ¸ğµç Å¸ÀÔÀÇ ºÎ¸ğ´Â object 
 	
-	// ResultSet -> ArrayList<HashMap<String, Object>>
-	while(rs.next()) {
+	// Result -> ArrayList<HashMap<String, Object>> ÀÌµ¿
+	
+	while(rs2.next()){
 		HashMap<String, Object> m = new HashMap<String, Object>();
-		m.put("empId", rs.getString("empId"));
-		m.put("empName", rs.getString("empName"));
-		m.put("empJob", rs.getString("empJob"));
-		m.put("hireDate", rs.getString("hireDate"));
-		m.put("active", rs.getString("active"));
+		m.put("empId", rs2.getString("empid"));
+		m.put("empName", rs2.getString("empName"));
+		m.put("empJob", rs2.getString("empJob"));
+		m.put("hireDate", rs2.getString("hireDate"));
+		m.put("active", rs2.getString("active"));
 		list.add(m);
 	}
-	// JDBC API ì‚¬ìš©ì´ ëë‚¬ë‹¤ë©´ DBìì›ë“¤ì„ ë°˜ë‚©
-%>
+	
+	
+	// JDBC API »ç¿ëÀÌ ³¡³µ´Ù¸é DBÀÚ¿øµéÀ» ¹İ³³
+%>    
 
-<!-- View Layer : ëª¨ë¸(ArrayList<HashMap<String, Object>>) ì¶œë ¥ -->
+
+
+<!-- View layer : ¸ğµ¨ ArrayList<HashMap<String, Object>> Ãâ·Â -->
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title></title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Dongle&family=Marmelad&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
+	
+	<meta charset="EUC-KR">
+	<style>
+		
+	</style>
+	<title>empList page</title>
+	
 </head>
 <body>
-	<div><a href="/shop/emp/empLogout.jsp">ë¡œê·¸ì•„ì›ƒ</a></div>
-	<h1>ì‚¬ì› ëª©ë¡</h1>
-	<table border="1">
-		<tr>
-			<th>empId</th>
-			<th>empName</th>
-			<th>empJob</th>
-			<th>hireDate</th>
-			<th>active</th>
-		</tr>
-		<%
-			for(HashMap<String, Object> m : list) {
-		%>
+	<div>
+		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
+	</div>
+
+	<div class="m-4 d-flex justify-content-between">
+		<div>&nbsp;</div>
+		<h1>Á÷¿ø ¸®½ºÆ®</h1>
+		<a href="/shop/emp/empLogoutAction.jsp" class="mt-4">·Î±×¾Æ¿ô</a>
+	</div>
+	<div>
+		<table border="1"  class="table table-hover">
+			<tr>
+				<th>empId</th>
+				<th>empName</th>
+				<th>empJob</th>
+				<th>hireDate</th>
+				<th>active</th>
+			</tr>
+			<%
+				for(HashMap<String, Object> m : list){
+			%>
 				<tr>
 					<td><%=(String)(m.get("empId"))%></td>
 					<td><%=(String)(m.get("empName"))%></td>
 					<td><%=(String)(m.get("empJob"))%></td>
 					<td><%=(String)(m.get("hireDate"))%></td>
-					<td>	
-						<a href='modifyEmpActive.jsp?active=<%=(String)(m.get("active"))%>&empId=<%=(String)(m.get("empId"))%>'>
+					<td>
+						<a href="/shop/emp/modifyEmpActive.jsp?active=<%=(String)(m.get("active"))%>&empId=<%=(String)(m.get("empId"))%>">
 							<%=(String)(m.get("active"))%>
 						</a>
 					</td>
 				</tr>
-		<%		
-			}
-		%>
-	</table>
+			<%
+				}
+			%>
+		</table>
+		<div class="d-flex justify-content-center btn-group" role="group" aria-label="Basic example">
+			<button type="button" class="btn btn-light"  >
+				<%
+					if(currentPage > 1){
+				%>
+					<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage -1%>" class="aTags">ÀÌÀü</a>
+				<%
+					}else{
+				%>
+					<a style="color: grey; cursor: not-allowed;" class="aTags" >ÀÌÀü</a>
+				<%
+					}
+				%>
+			</button>
+			<button type="button" class="btn btn-light" id="currentNum"><%=currentPage%></button>
+			<button type="button" class="btn btn-light">
+				<%if(currentPage < lastPage ){
+				%>
+					<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage +1%>" class="aTags">´ÙÀ½</a>		
+				<%
+				}else{
+				%>
+					<a style="color: grey; cursor: not-allowed;" class="aTags">´ÙÀ½</a>
+				<%
+				}
+				%>
+			</button>
+		</div>
+	</div>
 </body>
 </html>
