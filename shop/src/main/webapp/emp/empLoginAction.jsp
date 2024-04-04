@@ -11,6 +11,7 @@
 	}
 %>
 <%
+
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop","root","java1234");
 
@@ -50,8 +51,5 @@
 		response.sendRedirect("/shop/emp/empLoginForm.jsp?errMsg="+errMsg); // 자동으로 로그인페이지로 넘어감
 	}
 	
-	//자원반납
-	rs.close();
-	stmt.close();
-	conn.close();
 %>
+
