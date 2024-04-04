@@ -39,7 +39,7 @@
 	System.out.println(categoryList);
 	
 	//카테고리별 선택
-	String sql2 = "select category, goods_title goodsTitle, goods_price goodsPrice, goods_amount goodsAmount from goods where category = ?";
+	String sql2 = "select goods_no goodsNo, category, goods_title goodsTitle, goods_price goodsPrice, goods_amount goodsAmount from goods where category = ?";
 	PreparedStatement stmt2 = null;
 	ResultSet rs2 = null;
 	stmt2 = conn.prepareStatement(sql2);
@@ -50,6 +50,7 @@
 			new ArrayList<HashMap<String, Object>>();
 	while(rs2.next()) {
 		HashMap<String, Object> ms = new HashMap<String, Object>();
+		ms.put("goodsNo", rs2.getString("goodsNo"));
 		ms.put("category", rs2.getString("category"));
 		ms.put("goodsTitle", rs2.getString("goodsTitle"));
 		ms.put("goodsPrice", rs2.getString("goodsPrice"));
@@ -57,7 +58,8 @@
 		list.add(ms);
 	}
 	
-	String sql3 = "select category, goods_title goodsTitle, goods_price goodsPrice, goods_amount goodsAmount from goods";
+	//전체 리스트
+	String sql3 = "select goods_no goodsNo, category, goods_title goodsTitle, goods_price goodsPrice, goods_amount goodsAmount from goods";
 	PreparedStatement stmt3 = null;
 	ResultSet rs3 = null;
 	stmt3 = conn.prepareStatement(sql3);
@@ -67,6 +69,7 @@
 			new ArrayList<HashMap<String, Object>>();
 	while(rs3.next()) {
 		HashMap<String, Object> all = new HashMap<String, Object>();
+		all.put("goodsNo", rs3.getString("goodsNo"));
 		all.put("category", rs3.getString("category"));
 		all.put("goodsTitle", rs3.getString("goodsTitle"));
 		all.put("goodsPrice", rs3.getString("goodsPrice"));
@@ -137,9 +140,9 @@
 	<div>
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
-	
-	
-	
+
+
+
 	<!-- 서브메뉴 카테고리별 상품리스트 -->
 	<div>
 		<a href="/shop/emp/goodsList.jsp">전체</a>
@@ -156,7 +159,7 @@
 	</div>
 	<div>
 	<table border="1" class="table table-hover">
-		
+
 	<%
 		if(category == null){
 	%>
@@ -166,10 +169,10 @@
 	<%	
 			for(HashMap all : alList){
 	%>
-				
+
 				<tr>
 					<th><%=(String)(all.get("category")) %></th>
-					<td><a href="/shop/emp/goodsListOne.jsp"><%=(String)(all.get("goodsTitle")) %></a></td>
+					<td><a href="/shop/emp/goodsListOne.jsp?goodsNo=<%=(String)(all.get("goodsNo")) %>"><%=(String)(all.get("goodsTitle")) %></a></td>
 					<td><%=(String)(all.get("goodsPrice")) %></td>
 					<td><%=(String)(all.get("goodsAmount")) %></td>
 				</tr>
@@ -185,7 +188,7 @@
 	%>
 				<tr>
 					<th><%=(String)(ms.get("category")) %></th>
-					<td><a href="/shop/emp/goodsListOne.jsp"><%=(String)(ms.get("goodsTitle")) %></a></td>
+					<td><a href="/shop/emp/goodsListOne.jsp?goodsNo=<%=(String)(ms.get("goodsNo")) %>"><%=(String)(ms.get("goodsTitle")) %></a></td>
 					<td><%=(String)(ms.get("goodsPrice")) %></td>
 					<td><%=(String)(ms.get("goodsAmount")) %></td>
 				</tr>
