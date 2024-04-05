@@ -45,7 +45,8 @@
 	</div>
 	
 	<h1>상품등록</h1>
-	<form method="post" action="/shop/emp/addGoodsAction.jsp">
+	<form method="post" action="/shop/emp/addGoodsAction.jsp"
+		enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>category :</td>
@@ -68,6 +69,10 @@
 			<td><input type="text" name="goodsTitle"></td>
 		</tr>
 		<tr>
+			<td>goodsImage:</td>
+			<td><input type="file" name="goodsImg"></td>
+		</tr>
+		<tr>
 			<td>goodsPrice :</td>
 			<td><input type="number" name="goodsPrice"></td>
 		</tr>
@@ -75,6 +80,7 @@
 			<td>goodsAmount :</td>
 			<td><input type="number" name="goodsAmount"></td>
 		</tr>
+		
 		</table>
 		<div>
 			<textarea rows="5" cols="50" name="goodsContent" placeholder="content..."></textarea>

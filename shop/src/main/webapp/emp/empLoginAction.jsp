@@ -18,6 +18,9 @@
 	//1. 요청값분석
 	String empId = request.getParameter("empId");
 	String empPw = request.getParameter("empPw");
+	// 디버깅
+	System.out.println(empId + "<-- empLoginAction param empId");
+	System.out.println(empPw + "<-- empLoginAction param empPw");
 	
 	String sql = "select emp_id empId, emp_name empName, grade from emp where active = 'ON' and emp_id =? and emp_pw = password(?)";
 	PreparedStatement stmt = null; 	
@@ -25,6 +28,7 @@
 	stmt=conn.prepareStatement(sql);
 	stmt.setString(1,empId);
 	stmt.setString(2,empPw);
+	System.out.println("empLoginAction stmt -->"+stmt);
 	rs = stmt.executeQuery();
 	
 	if(rs.next()){  // 로그인성공 (select문 결과값이 있을때)

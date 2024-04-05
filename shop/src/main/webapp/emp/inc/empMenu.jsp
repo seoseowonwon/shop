@@ -13,7 +13,7 @@
 	<a href="/shop/emp/addGoodsForm.jsp">상품등록</a>	
 	<span>
 		<!-- 개인정보수정 -->
-		<a href="/shop/emp/empOne.jsp">
+		<a href="/shop/emp/empOne.jsp?empId=<%=(String)(loginMember.get("empId"))%>">
 			<%=(String)(loginMember.get("empName"))%>님
 		</a> 반갑습니다
 	</span>

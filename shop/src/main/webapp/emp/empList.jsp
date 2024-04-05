@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*" %>
 
@@ -143,10 +142,10 @@
 				for(HashMap<String, Object> m : list){
 			%>
 				<tr>
-					<td><%=(String)(m.get("empId"))%></td>
-					<td><%=(String)(m.get("empName"))%></td>
-					<td><%=(String)(m.get("empJob"))%></td>
-					<td><%=(String)(m.get("hireDate"))%></td>
+					<td><a href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empId"))%></a></td>
+					<td><a href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empName"))%></a></td>
+					<td><a href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empJob"))%></a></td>
+					<td><a href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("hireDate"))%></a></td>
 					<td>
 						<a href="/shop/emp/modifyEmpActive.jsp?active=<%=(String)(m.get("active"))%>&empId=<%=(String)(m.get("empId"))%>">
 							<%=(String)(m.get("active"))%>
