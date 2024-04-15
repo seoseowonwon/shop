@@ -13,6 +13,11 @@
 	}
 %>
 <%
+	String category = request.getParameter("category");
+	String goodsTitle = request.getParameter("goodsTitle");
+	String goodsContent = request.getParameter("goodsContent");
+	String goodsPrice = request.getParameter("goodsPrice");
+	String goodsAmount = request.getParameter("goodsAmount");
 
 	Part part = request.getPart("goodsImg");
 	String originalName = part.getSubmittedFileName();
@@ -26,13 +31,9 @@
 	filename = filename + ext;
 	
 	HashMap<String, Object> loginEmp = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
-	
-	String category = request.getParameter("category");
 	String empId = (String)(loginEmp.get("empId"));
-	String goodsTitle = request.getParameter("goodsTitle");
-	String goodsContent = request.getParameter("goodsContent");
-	String goodsPrice = request.getParameter("goodsPrice");
-	String goodsAmount = request.getParameter("goodsAmount");
+	
+
 	
 	//디버깅
 	System.out.println("addGoodsAction category --> "+category);	
@@ -60,7 +61,6 @@
 	stmt1.setString(5, goodsContent);
 	stmt1.setString(6, goodsPrice);
 	stmt1.setString(7, goodsAmount);
-	rs1 = stmt1.executeQuery();
 	
 	int row = stmt1.executeUpdate();
 	

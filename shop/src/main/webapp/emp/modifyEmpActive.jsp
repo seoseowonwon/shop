@@ -12,7 +12,8 @@
 <%
 	String empId = request.getParameter("empId");
 	String active = request.getParameter("active");
-	
+	System.out.println("modifyEmpActive empId --> "+empId);
+	System.out.println("modifyEmpActive active --> "+active);
 	
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = null;

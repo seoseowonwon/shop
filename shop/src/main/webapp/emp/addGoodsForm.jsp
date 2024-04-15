@@ -32,6 +32,9 @@
 	System.out.println(categoryList);
 %>
 
+
+
+
 <!DOCTYPE html>
 <html>
 <head>

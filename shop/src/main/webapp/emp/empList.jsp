@@ -38,7 +38,7 @@
 	
 	
 	//전체 회원의 수 구하기
-	String sql3 = "SELECT count(*) cnt FROM emp WHERE emp_id LIKE '%%'";
+	String sql3 = "SELECT count(*) cnt FROM emp";
 	PreparedStatement stmt3 = null;
 	ResultSet rs3 = null; 
 	stmt3 = conn.prepareStatement(sql3);
