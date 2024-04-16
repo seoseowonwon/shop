@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*" %>
+<%@ page import="shop.dao.*" %>
 
 <%
 	// 인증분기	 : 세션변수 이름 - loginEmp
@@ -12,6 +13,7 @@
 %>
 
 <%
+	/*
 	String empId = request.getParameter("empId");
 	Connection conn = null;
 	Class.forName("org.mariadb.jdbc.Driver");
@@ -36,6 +38,12 @@
 		m.put("updateDate", rs.getString("updateDate"));
 		list.add(m);
 	}
+	*/
+	
+	HashMap<String, Object> empOne = new HashMap<String, Object>();   // 모든 타입의 부모는 
+	
+	String empId = request.getParameter("empId");
+	HashMap<String, Object> list = EmpDAO.empOne(empId);
 %>
 
 <!DOCTYPE html>
@@ -50,30 +58,26 @@
 	</div>
 	<div>
 		<table border="1"  class="table table-hover">
-			<%
-				for(HashMap<String, Object> m : list){
-			%>
+			
 				<tr>
-					<th>empId</th><td><%=(String)(m.get("empId"))%></td>
+					<th>empId</th><td><%=(String)(list.get("empId"))%></td>
 				</tr>
 				<tr>
-					<th>empName</th><td><%=(String)(m.get("empName"))%></td>
+					<th>empName</th><td><%=(String)(list.get("empName"))%></td>
 				</tr>
 				<tr>
-					<th>empJob</th><td><%=(String)(m.get("empJob"))%></td>
+					<th>empJob</th><td><%=(String)(list.get("empJob"))%></td>
 				</tr>
 				<tr>
-					<th>hireDate</th><td><%=(String)(m.get("hireDate"))%></td>
+					<th>hireDate</th><td><%=(String)(list.get("hireDate"))%></td>
 				</tr>
 				<tr>
-					<th>createDate</th><td><%=(String)(m.get("createDate"))%></td>
+					<th>createDate</th><td><%=(String)(list.get("createDate"))%></td>
 				</tr>
 				<tr>
-					<th>updateDate</th><td><%=(String)(m.get("updateDate"))%></td>
+					<th>updateDate</th><td><%=(String)(list.get("updateDate"))%></td>
 				</tr>
-			<%
-				}
-			%>
+			
 		</table>
 </body>
 </html>

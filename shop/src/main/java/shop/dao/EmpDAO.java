@@ -3,6 +3,7 @@ package shop.dao;
 import java.sql.*;
 import java.util.*;
 
+
 // emp 테이블을 CRUD하는 STATIC 메서드의 컨테이너 역할 
 // 1. 메서드 사용하는 이유는 짧게 호출하기 위해 2. 반복되는 것을 호출할려고
 
@@ -51,6 +52,46 @@ public class EmpDAO {
 		
 		conn.close();
 		return resultMap;
+	}
+	
+	// 호출 : empOne.jsp
+	// param : empId
+	// return HashMap
+	public static HashMap<String, Object> empOne (String empId) throws Exception {
+		
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "SELECT emp_id empId, emp_name empName,"
+				+ " emp_job empJob, hire_date hireDate, "
+				+ "create_date createDate, update_date updateDate "
+				+ "FROM emp WHERE emp_id = ?";
+		PreparedStatement stmt = null; 	
+		ResultSet rs = null;
+		stmt=conn.prepareStatement(sql);
+		stmt.setString(1,empId);
+		System.out.println("empOneDAO stmt --> "+stmt);
+		rs = stmt.executeQuery();
+		
+		
+		HashMap<String, Object> resultMap = null;
+		if(rs.next()) {
+			resultMap = new HashMap<String, Object>();
+			resultMap.put("empId", rs.getString("empId"));
+			resultMap.put("empName", rs.getString("empName"));
+			resultMap.put("empJob", rs.getString("empJob"));
+			resultMap.put("hireDate", rs.getString("hireDate"));
+			resultMap.put("createDate", rs.getString("createDate"));
+			resultMap.put("updateDate", rs.getString("updateDate"));
+		}
+		
+		conn.close();
+		return resultMap;
+	}
+	
+	// 메일 체크 메서드 디버깅
+	public static void main(String[] args) throws Exception {
+		System.out.println( "EmpDAO empLogin의 resultMap값--> "+EmpDAO.empLogin("admin","1234"));
+		System.out.println( "EmpDAO empOne의 resultMap값--> "+EmpDAO.empOne("admin"));
 	}
 	
 }
