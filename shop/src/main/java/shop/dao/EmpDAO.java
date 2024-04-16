@@ -88,7 +88,38 @@ public class EmpDAO {
 		return resultMap;
 	}
 	
-	// 메일 체크 메서드 디버깅
+	
+	// 호출 : empList
+	// Param : x
+	// return : ArrayList
+	//empList의 전체 출력 empId	empName	empJob	hireDate	active등 출력
+	public static ArrayList<HashMap<String, Object>> seeAll() throws Exception{
+		
+		Connection conn = DBHelper.getConnection();
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		String sql = "SELECT emp_id empId, emp_name empName, emp_job empJob, "
+				+ "hire_date hireDate, active FROM emp";
+		PreparedStatement stmt = null; 	
+		ResultSet rs = null;
+		stmt=conn.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		HashMap<String, Object> resultMap = null;
+		while(rs.next()){
+			resultMap = new HashMap<String, Object>();
+			resultMap.put("empId", rs.getString("empid"));
+			resultMap.put("empName", rs.getString("empName"));
+			resultMap.put("empJob", rs.getString("empJob"));
+			resultMap.put("hireDate", rs.getString("hireDate"));
+			resultMap.put("active", rs.getString("active"));
+			list.add(resultMap);
+		}
+		
+		return list;
+	}
+	
+	
+	
+	// 디버깅용 메서드
 	public static void main(String[] args) throws Exception {
 		System.out.println( "EmpDAO empLogin의 resultMap값--> "+EmpDAO.empLogin("admin","1234"));
 		System.out.println( "EmpDAO empOne의 resultMap값--> "+EmpDAO.empOne("admin"));

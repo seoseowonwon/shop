@@ -40,7 +40,6 @@
 	}
 	*/
 	
-	HashMap<String, Object> empOne = new HashMap<String, Object>();   // 모든 타입의 부모는 
 	
 	String empId = request.getParameter("empId");
 	HashMap<String, Object> list = EmpDAO.empOne(empId);

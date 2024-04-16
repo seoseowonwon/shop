@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*" %>
+<%@ page import="shop.dao.*" %>
 
 <!-- Controller layer -->
 <%
@@ -74,6 +75,8 @@
 	//-> API사용(JDBC API)하여 자료구조(ResultSet) 취득 
 	//-> 일반화된 자료구조 (ArrayList<HashMap>) 로 변경 -> 모델 취득
 	
+	/*
+	//전체 리스트 출력하는 문
 	Class.forName("org.mariadb.jdbc.Driver");
 	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
 
@@ -98,7 +101,8 @@
 		m.put("active", rs2.getString("active"));
 		list.add(m);
 	}
-	
+	*/
+	ArrayList<HashMap<String, Object>> list = EmpDAO.seeAll();
 	
 	// JDBC API 사용이 끝났다면 DB자원들을 반납
 %>    
