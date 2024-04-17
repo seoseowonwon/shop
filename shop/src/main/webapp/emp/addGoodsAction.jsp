@@ -4,6 +4,7 @@
 <%@ page import="java.net.*" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.nio.file.*" %>
+<%@ page import="shop.dao.*" %>
 <%
 	// 인증분기	 : 세션변수 이름 - loginEmp
 	request.setCharacterEncoding("UTF-8");
@@ -16,9 +17,11 @@
 	String category = request.getParameter("category");
 	String goodsTitle = request.getParameter("goodsTitle");
 	String goodsContent = request.getParameter("goodsContent");
-	String goodsPrice = request.getParameter("goodsPrice");
-	String goodsAmount = request.getParameter("goodsAmount");
+	int goodsPrice = Integer.parseInt(request.getParameter("goodsPrice"));
+	int goodsAmount = Integer.parseInt(request.getParameter("goodsAmount"));
 
+	
+	//파일 가져오기
 	Part part = request.getPart("goodsImg");
 	String originalName = part.getSubmittedFileName();
 	// 원본이름에서 확장자만 분리
@@ -34,7 +37,7 @@
 	String empId = (String)(loginEmp.get("empId"));
 	
 
-	
+	/*
 	//디버깅
 	System.out.println("addGoodsAction category --> "+category);	
 	System.out.println("addGoodsAction empId --> "+empId);	
@@ -75,7 +78,9 @@
 		os.close();
 		is.close();
 	}
+	*/
 	
+	int list = GoodsDAO.insertGoods(category, empId, goodsTitle, filename, goodsContent, goodsPrice, goodsAmount);
 	//파일 지우기
 	/* File df = new File(filePath, rs.getString("filename"));
 	df.delete() */
@@ -83,7 +88,7 @@
 
 <!-- Controller Layer -->
 <%
-    if(row == 1){
+    if(list == 1){
         response.sendRedirect("/shop/emp/goodsList.jsp");
     } else {
     	String errMsg = URLEncoder.encode("작성에 실패했습니다. 확인 후 다시 입력하세요.", "utf-8");

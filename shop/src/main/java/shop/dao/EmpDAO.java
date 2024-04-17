@@ -14,7 +14,9 @@ public class EmpDAO {
 		// DB 접근
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "insert into emp (emp_id empId, emp_pw empPw, emp_name empName, emp_job empJob ) values ( ?, ?, ?, ? )";
+		String sql = "insert into emp (emp_id empId, emp_pw empPw, "
+				+ "emp_name empName, emp_job empJob ) "
+				+ "values ( ?, ?, ?, ? )";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1,empId);
 		stmt.setString(2,empPw);
