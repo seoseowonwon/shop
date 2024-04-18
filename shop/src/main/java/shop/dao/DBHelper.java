@@ -16,10 +16,9 @@ public class DBHelper {
 		
 		//디버깅
 		System.out.println("DBHelper id -->"+prop.getProperty("id"));
-		System.out.println("DBHelper pw -->"+prop.getProperty("pw"));
 		
 		String id = prop.getProperty("id");
-		String pw = prop.getProperty("pw");
+		String pw = "java1234";
 		Connection conn =  DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop",id,pw);
 		return conn;
 	}
