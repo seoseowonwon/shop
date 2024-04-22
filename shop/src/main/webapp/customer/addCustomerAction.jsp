@@ -1,6 +1,6 @@
-<%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
 <%
 	//로그인 인증 분기
 	if(session.getAttribute("loginCustomer") != null){
@@ -33,7 +33,7 @@
 	stmt.setString(3, customerName);
 	stmt.setString(4, birth);
 	stmt.setString(5, gender);
-	System.out.println(stmt);
+	System.out.println("addCustomerAction stmt--> "+stmt);
 	int row = 0;
 	row = stmt.executeUpdate();
 	

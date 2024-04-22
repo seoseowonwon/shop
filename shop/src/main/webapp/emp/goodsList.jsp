@@ -16,134 +16,63 @@
 
 <!-- Model Layer -->
 <%
-	/*
-	String category = request.getParameter("category");
-	System.out.println("goodsList category --> "+category);
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	PreparedStatement stmt1 = null;
-	ResultSet rs1 = null;
-	conn = DriverManager.getConnection(
-			"jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-	
-	String sql1 = "select category, count(*) cnt from goods group by category order by category asc";
-	stmt1 = conn.prepareStatement(sql1);
-	rs1 = stmt1.executeQuery();
-	ArrayList<HashMap<String, Object>> categoryList =
-			new ArrayList<HashMap<String, Object>>();
-	while(rs1.next()) {
-		HashMap<String, Object> m = new HashMap<String, Object>();
-		m.put("category", rs1.getString("category"));
-		m.put("cnt", rs1.getInt("cnt"));
-		categoryList.add(m);
-	}
-	// 디버깅
-	System.out.println(categoryList);
-	*/
 	
 	ArrayList<HashMap<String, Object>> categoryList = GoodsDAO.categoryList();
-	
-	//카테고리별 선택
-	/*
-	String sql2 = "select goods_no goodsNo, category, goods_title goodsTitle, filename, goods_price goodsPrice, goods_amount goodsAmount from goods where category = ?";
-	PreparedStatement stmt2 = null;
-	ResultSet rs2 = null;
-	stmt2 = conn.prepareStatement(sql2);
-	stmt2.setString(1,category);
-	rs2 = stmt2.executeQuery();
-	
-	ArrayList<HashMap<String, Object>> list =
-			new ArrayList<HashMap<String, Object>>();
-	while(rs2.next()) {
-		HashMap<String, Object> ms = new HashMap<String, Object>();
-		ms.put("goodsNo", rs2.getString("goodsNo"));
-		ms.put("category", rs2.getString("category"));
-		ms.put("goodsTitle", rs2.getString("goodsTitle"));
-		ms.put("filename", rs2.getString("filename"));
-		ms.put("goodsPrice", rs2.getString("goodsPrice"));
-		ms.put("goodsAmount", rs2.getString("goodsAmount"));
-		list.add(ms);
-	}
-	*/
 	
 	String category = request.getParameter("category");
 	ArrayList<HashMap<String, Object>> list = GoodsDAO.list(category);
 	
-	
-	/*
-	//전체 리스트
-	String sql3 = "select goods_no goodsNo, category, goods_title goodsTitle, filename, goods_price goodsPrice, goods_amount goodsAmount from goods";
-	PreparedStatement stmt3 = null;
-	ResultSet rs3 = null;
-	stmt3 = conn.prepareStatement(sql3);
-	rs3 = stmt3.executeQuery();
-	
-	ArrayList<HashMap<String, Object>> alList =
-			new ArrayList<HashMap<String, Object>>();
-	while(rs3.next()) {
-		HashMap<String, Object> all = new HashMap<String, Object>();
-		all.put("goodsNo", rs3.getString("goodsNo"));
-		all.put("category", rs3.getString("category"));
-		all.put("goodsTitle", rs3.getString("goodsTitle"));
-		all.put("filename", rs3.getString("filename"));
-		all.put("goodsPrice", rs3.getString("goodsPrice"));
-		all.put("goodsAmount", rs3.getString("goodsAmount"));
-		alList.add(all);
-	}
-	System.out.println("alList --> "+alList);
-	*/
 	ArrayList<HashMap<String, Object>> alList = GoodsDAO.alList();
 		
 %>
 
 <%
-	/*
-	//현재 페이지 값 
+	System.out.println("goodsList param category --> " + category);
+	
+	// 페이징을 구하는 controller
+	int totalCnt = 0;
+	
+	//각 카테고리별 전체 수 구하기
+	for (HashMap m : categoryList){
+		if(m.get("category").equals(category)){
+			 totalCnt = (Integer)(m.get("cnt")); // HashMap<String, Object>의 Object 값은 참조이기 때문에 형변환 할 때 Integer을 사용한다.
+		}
+	}
+	
+	System.out.println("totalCnt --> "+totalCnt);
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	
-	// 한 페이지에 보이는 인원수
+	System.out.println("goodsList currentPage --> " + currentPage);
 	int rowPerPage = 10;
+	int startRow = 10 * currentPage;
+	int lastPage = 0;
+	if (totalCnt % 10 == 0){
+		 lastPage = totalCnt / 10 - 1;
+		 System.out.println("딱이야");
+	} else {
+		lastPage = totalCnt / 10;
+		System.out.println("딱이아니야");
+	}
+	System.out.println("lastPage --> "+lastPage);
 	
-	// DB에서 시작 페이지 값 설정 = (현재 페이지-1) *   한 페이지에 보이는 인원수
-	int startRow = (currentPage-1)* rowPerPage;
+	String goodsTitle = request.getParameter("goodsTitle");
+	String order = request.getParameter("order");
+	System.out.println("goodsList param goodsTitle --> " + goodsTitle);
+	System.out.println( "goodsList param order --> " + order);
 	
-	
-	//전체 회원의 수 구하기
-	String sql4 = "SELECT count(*) cnt FROM goods";
-	PreparedStatement stmt4 = null;
-	ResultSet rs4 = null; 
-	stmt4 = conn.prepareStatement(sql4);
-	rs4 = stmt4.executeQuery();
-	
-	// 전체 회원수 
-	int totalRow = 0;
-	
-	if(rs4.next()){
-		totalRow = rs4.getInt("cnt");
-		System.out.println("goodsList totalRow --> "+totalRow);
+	if(goodsTitle == null){
+		goodsTitle = "";
 	}
 	
-	// 마지막 페이지 계산하기 = 전체 회원수 / 한 페이지에서 보이는 인원수
-	int lastPage = totalRow / rowPerPage;
-	
-	//인원수가 남을 때 마지막 페이지는 +1 해준다. 
-	//예) 회원수가 11명이라면 한 페이지당 10명씩 1페이지가 나와야하는데 1명이 더 있기 때문에 총 페이지는 2페이지가 된다.
-	if(totalRow % rowPerPage != 0){
-		lastPage = lastPage +1 ;
+	if(order == null){
+		order = "create_date";
 	}
-	
-	
-	//System.out.println(lastPage + " lastPage 회원보기 페이지");
-	//System.out.println(totalRow + "<----totalRow 전체 회원수 ");
-	//System.out.println(rowPerPage + "<----rowPerPage 한 페이지당 보고싶은 인원수");
-	//System.out.println(startRow);
-	//System.out.println(rowPerPage);
-	*/
-%>
 
+
+
+%>
 
 <!-- View Layer -->
 <!DOCTYPE html>
@@ -154,12 +83,50 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Dongle&family=Marmelad&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
 </head>
+<style>
+	.yo{
+			float:left;
+			margin: 50px;
+		}
+</style>
 <body>
 	<!-- 메인메뉴 -->
 	<div>
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
-
+	<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid container">
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a href="/shop/customer/goodsList.jsp?order=<%=order %>&goodsTitle=<%=goodsTitle %>" 
+          class="nav-link active" aria-current="page">전체</a>
+        </li>
+        <%
+			for(HashMap m : categoryList) {
+		%>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/shop/customer/goodsList.jsp?category=<%=(String)(m.get("category"))%>"><%=(String)(m.get("category"))%>(<%=(Integer)(m.get("cnt"))%>)
+	          </a>
+	        </li>
+	    <%
+			}
+		%>
+        <li class="nav-item">
+          <a href="addCustomerForm.jsp" class="nav-link">회원가입</a>
+        </li>
+         <li class="nav-item">
+          <a href="/shop/customer/logout.jsp" class="nav-link">로그아웃</a>
+        </li>
+      </ul>
+      </form>
+    </div>
+  </div>
+</nav>
 
 
 	<!-- 서브메뉴 카테고리별 상품리스트 -->
@@ -186,29 +153,47 @@
 	<%	
 			for(HashMap all : alList){
 	%>
-				<div><img alt="이미지" src="/shop/upload/<%=(String)(all.get("filename"))%>" width="200"></td></div>
-				<div>번호: <a href='/shop/emp/goodsListOne.jsp?goodsNo=<%=(Integer)(all.get("goodsNo")) %>'><%=(String)(all.get("goodsTitle")) %></a></div>
-				<div>카테고리: <%=(String)(all.get("category")) %></div>
-				<div>가격: <%=(Integer)(all.get("goodsPrice")) %></div>
-				<div>수량: <%=(Integer)(all.get("goodsAmount")) %></div>
+				<div class="yo">
+					<div><img alt="이미지" src="/shop/upload/<%=(String)(all.get("filename"))%>" width="200" height ="200"></td></div>
+					<div>번호: <a href='/shop/emp/goodsListOne.jsp?goodsNo=<%=(Integer)(all.get("goodsNo")) %>'><%=(String)(all.get("goodsTitle")) %></a></div>
+					<div>카테고리: <%=(String)(all.get("category")) %></div>
+					<div>가격: <%=(Integer)(all.get("goodsPrice")) %></div>
+					<div>수량: <%=(Integer)(all.get("goodsAmount")) %></div>
+				</div>
 	<%			
 			}
 		} else if(category != null) {
 	
 			for(HashMap ms : list){
 	%>
-				
-					<div><img alt="이미지" src="/shop/upload/<%=(String)(ms.get("filename"))%>" width="200"></div>
-					<div>카테고리: <%=(String)(ms.get("category")) %></div>
-					<div>번호: <a href="/shop/emp/goodsListOne.jsp?goodsNo=<%=(Integer)(ms.get("goodsNo")) %>"><%=(String)(ms.get("goodsTitle")) %></a></div>
-					<div>가격: <%=(Integer)(ms.get("goodsPrice")) %></div>
-					<div>수량: <%=(Integer)(ms.get("goodsAmount")) %></div>
+					<div class="yo">
+						<div><img alt="이미지" src="/shop/upload/<%=(String)(ms.get("filename"))%>" width="200" height ="200"></div>
+						<div>카테고리: <%=(String)(ms.get("category")) %></div>
+						<div>번호: <a href="/shop/emp/goodsListOne.jsp?goodsNo=<%=(Integer)(ms.get("goodsNo")) %>"><%=(String)(ms.get("goodsTitle")) %></a></div>
+						<div>가격: <%=(Integer)(ms.get("goodsPrice")) %></div>
+						<div>수량: <%=(Integer)(ms.get("goodsAmount")) %></div>
+					</div>
 				
 	<%			 
 			}
 		}
 	%>
-	</table>
+	</div>
+	<div>
+			<%
+				if(currentPage > 1){
+			%>
+					  	<a href="/shop/customer/goodsList.jsp?currentPage=1&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">처음</a>
+					  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">이전</a>
+			<%
+				}
+				if(currentPage < lastPage){
+			%>
+					  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">다음</a>
+					  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=lastPage %>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">마지막</a>
+			<%
+				} 
+			%>
 	</div>
 </body>
 </html>

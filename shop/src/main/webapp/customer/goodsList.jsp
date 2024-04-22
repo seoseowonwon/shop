@@ -72,57 +72,59 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 	<link rel="stylesheet" href="/shop/css/goods.css">
+	
 	<style>
-		.container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-		
 		.yo{
 			float:left;
-			margin: 50px;
-		}
-		
-		.test{
-			float:right;
 			margin: 50px;
 		}
 	</style>
 </head>
 <body>
-	 <div class="container">
-		<div>
-			<a href="addCustomerForm.jsp">회원가입</a>
-		</div>
-		
-		<div>
-			<form method="get" action="/shop/customer/goodsList.jsp">
-				<input type="text" name="goodsTitle" placeholder="상품 이름" value="<%=goodsTitle %>">
-				<button type="submit">검색</button>
-			</form>
-		</div>
-		
-		
-		<!-- 상단 전체 나루도(100) 너의이름은(125)..  -->
-		<div>
-			<a href="/shop/customer/goodsList.jsp?order=<%=order %>&goodsTitle=<%=goodsTitle %>">전체</a>
-			<%
-				for(HashMap m : categoryList) {
-			%>
-					<a href="/shop/customer/goodsList.jsp?category=<%=(String)(m.get("category"))%>">
-						<%=(String)(m.get("category")) %>
-						(<%=(Integer)(m.get("cnt")) %>)
-					</a>
-			<%
-				}
-			%>
-		</div>
-		
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid container">
+    <a class="navbar-brand" href="#">coonpang</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a href="/shop/customer/goodsList.jsp?order=<%=order %>&goodsTitle=<%=goodsTitle %>" 
+          class="nav-link active" aria-current="page">전체</a>
+        </li>
+        <%
+			for(HashMap m : categoryList) {
+		%>
+	        <li class="nav-item">
+	          <a class="nav-link" href="/shop/customer/goodsList.jsp?category=<%=(String)(m.get("category"))%>"><%=(String)(m.get("category"))%>(<%=(Integer)(m.get("cnt"))%>)
+	          </a>
+	        </li>
+	    <%
+			}
+		%>
+        <li class="nav-item">
+          <a href="addCustomerForm.jsp" class="nav-link">회원가입</a>
+        </li>
+         <li class="nav-item">
+          <a href="/shop/customer/logout.jsp" class="nav-link">로그아웃</a>
+        </li>
+      </ul>
+      <form method="get" action="/shop/customer/goodsList.jsp" class="d-flex" role="search">
+        <input class="form-control me-2" 
+        		type="text" placeholder="상품이름" 
+        		aria-label="Search" name="goodsTitle"  
+        		value="<%=goodsTitle %>">
+        <button class="btn btn-outline-success" type="submit">search</button>
+        
+      </form>
+    </div>
+  </div>
+</nav>
 		
 		<!-- 상품 이미지 정보등 표시 -->
-		<div>
 		<%
 			for(HashMap m : selectGoodsList) {
 		%>
@@ -141,24 +143,28 @@
 		<%
 			}
 		%>
-		</div>
-		
-		<div class="test">
-			<%
-				if(currentPage > 1){
-			%>
+			<div class="d-flex justify-content-center btn-group position-absolute bottom-0 start-50 translate-middle-x" role="group" aria-label="Basic example">
+				<button type="button" class="btn btn-light"  >
+				<%
+					if(currentPage > 1){
+				%>
 					  	<a href="/shop/customer/goodsList.jsp?currentPage=1&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">처음</a>
 					  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">이전</a>
-			<%
-				}
-				if(currentPage < lastPage){
-			%>
+				<%
+					}
+				%>
+					</button>
+					<button type="button" class="btn btn-light" id="currentNum"><%=currentPage%></button>
+					<button type="button" class="btn btn-light">
+				<%
+					if(currentPage < lastPage){
+				%>
 					  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">다음</a>
 					  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=lastPage %>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">마지막</a>
-			<%
-				} 
-			%>
-		</div>
-	</div>
+				<%
+					} 
+				%>
+					</button>
+			</div>
 </body>
 </html>
