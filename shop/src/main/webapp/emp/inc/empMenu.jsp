@@ -30,12 +30,13 @@
 				<li class="nav-item"><a href="/shop/emp/empLogoutAction.jsp"
 					class="nav-link">로그아웃</a></li>
 			</ul>
+			<!--
 			<form method="get" action="/shop/customer/goodsList.jsp"
 				class="d-flex" role="search">
 				<input class="form-control me-2" type="text" placeholder="상품이름"
 					aria-label="Search" name="goodsTitle">
 				<button class="btn btn-outline-success" type="submit">search</button>
-
+			 -->
 			</form>
 		</div>
 	</div>

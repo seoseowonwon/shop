@@ -41,56 +41,64 @@
 	<meta charset="UTF-8">
 	<title></title>
 </head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <body>
 	<!-- 메인메뉴 -->
 	<div>
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
 	
-	<h1>상품등록</h1>
-	<form method="post" action="/shop/emp/addGoodsAction.jsp"
-		enctype="multipart/form-data">
-		<table>
-			<tr>
-				<td>category :</td>
-				<td>
-					<select name="category">
-						<option value="">선택</option>
-						<%
-							for(String c : categoryList) {
-						%>
-								<option value="<%=c%>"><%=c%></option>
-						<%		
-							}
-						%>
-					</select>
-				</td>
-			</tr>
-		<!-- emp_id값은 action쪽에서 세션변수에서 바인딩 -->
-		<tr>
-			<td>goodsTitle :</td>
-			<td><input type="text" name="goodsTitle"></td>
-		</tr>
-		<tr>
-			<td>goodsImage:</td>
-			<td><input type="file" name="goodsImg"></td>
-		</tr>
-		<tr>
-			<td>goodsPrice :</td>
-			<td><input type="number" name="goodsPrice"></td>
-		</tr>
-		<tr>
-			<td>goodsAmount :</td>
-			<td><input type="number" name="goodsAmount"></td>
-		</tr>
-		
-		</table>
-		<div>
-			<textarea rows="5" cols="50" name="goodsContent" placeholder="content..."></textarea>
+	<div class="container-fluid">
+	<div class="row">
+    		<div class="col-4"></div>
+    		<div class="col-4">
+				<h1>상품등록</h1>
+				<form method="post" action="/shop/emp/addGoodsAction.jsp"
+					enctype="multipart/form-data">
+					<table>
+						<tr>
+							<td>category :</td>
+							<td>
+								<select name="category">
+									<option value="">선택</option>
+									<%
+										for(String c : categoryList) {
+									%>
+											<option value="<%=c%>"><%=c%></option>
+									<%		
+										}
+									%>
+								</select>
+							</td>
+						</tr>
+					<!-- emp_id값은 action쪽에서 세션변수에서 바인딩 -->
+					<tr>
+						<td>goodsTitle :</td>
+						<td><input type="text" name="goodsTitle"></td>
+					</tr>
+					<tr>
+						<td>goodsImage:</td>
+						<td><input type="file" name="goodsImg"></td>
+					</tr>
+					<tr>
+						<td>goodsPrice :</td>
+						<td><input type="number" name="goodsPrice"></td>
+					</tr>
+					<tr>
+						<td>goodsAmount :</td>
+						<td><input type="number" name="goodsAmount"></td>
+					</tr>
+					
+					</table>
+					<div>
+						<textarea rows="5" cols="50" name="goodsContent" placeholder="content..."></textarea>
+					</div>
+					<div>
+						<button type="submit">상품등록</button>
+					</div>
+				</form>
+			</div>
+			<div class="col-4"></div>
 		</div>
-		<div>
-			<button type="submit">상품등록</button>
-		</div>
-	</form>
 </body>
 </html>

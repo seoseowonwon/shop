@@ -20,7 +20,7 @@
 	ResultSet rs = null; 
 	stmt = conn.prepareStatement(sql);	
 	rs = stmt.executeQuery();
-
+	
 	
 %>    
 
@@ -113,16 +113,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="EUC-KR">
+	<title>empList page</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Dongle&family=Marmelad&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
-	
-	<meta charset="EUC-KR">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 	<style>
-		
+		.a{
+			text-decoration: none;
+			color: black;
+		}
 	</style>
-	<title>empList page</title>
-	 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-	
 </head>
 <body>
 	
@@ -133,25 +134,25 @@
 	<div class="m-4 d-flex justify-content-between">
 		<div>&nbsp;</div>
 		<h1>직원 리스트</h1>
-		<a href="/shop/emp/empLogoutAction.jsp" class="mt-4">로그아웃</a>
+		<div>&nbsp;</div>
 	</div>
 	<div>
 		<table border="1"  class="table table-hover">
 			<tr>
-				<th>empId</th>
-				<th>empName</th>
-				<th>empJob</th>
-				<th>hireDate</th>
-				<th>active</th>
+				<th>이메일</th>
+				<th>이름</th>
+				<th>직책</th>
+				<th>고용날짜</th>
+				<th>관리자</th>
 			</tr>
 			<%
 				for(HashMap<String, Object> m : list){
 			%>
 				<tr>
-					<td><a href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empId"))%></a></td>
-					<td><a href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empName"))%></a></td>
-					<td><a href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empJob"))%></a></td>
-					<td><a href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("hireDate"))%></a></td>
+					<td><a class="a" href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empId"))%></a></td>
+					<td><a class="a" href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empName"))%></a></td>
+					<td><a class="a" href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empJob"))%></a></td>
+					<td><a class="a" href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("hireDate"))%></a></td>
 					<td>
 						<a href="/shop/emp/modifyEmpActive.jsp?active=<%=(String)(m.get("active"))%>&empId=<%=(String)(m.get("empId"))%>">
 							<%=(String)(m.get("active"))%>

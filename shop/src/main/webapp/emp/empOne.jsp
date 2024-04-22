@@ -50,33 +50,39 @@
 <head>
 	<meta charset="UTF-8">
 	<title></title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 	<div>
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
-	<div>
-		<table border="1"  class="table table-hover">
-			
-				<tr>
-					<th>empId</th><td><%=(String)(list.get("empId"))%></td>
-				</tr>
-				<tr>
-					<th>empName</th><td><%=(String)(list.get("empName"))%></td>
-				</tr>
-				<tr>
-					<th>empJob</th><td><%=(String)(list.get("empJob"))%></td>
-				</tr>
-				<tr>
-					<th>hireDate</th><td><%=(String)(list.get("hireDate"))%></td>
-				</tr>
-				<tr>
-					<th>createDate</th><td><%=(String)(list.get("createDate"))%></td>
-				</tr>
-				<tr>
-					<th>updateDate</th><td><%=(String)(list.get("updateDate"))%></td>
-				</tr>
-			
-		</table>
+	<div class="container-fluid">
+	<div class="row">
+    		<div class="col-4"></div>
+    		<div class="col-4">
+				<table border="1"  class="table table-hover">
+					
+						<tr>
+							<th>아이디</th><td><%=(String)(list.get("empId"))%></td>
+						</tr>
+						<tr>
+							<th>이름</th><td><%=(String)(list.get("empName"))%></td>
+						</tr>
+						<tr>
+							<th>직책</th><td><%=(String)(list.get("empJob"))%></td>
+						</tr>
+						<tr>
+							<th>고용일</th><td><%=(String)(list.get("hireDate"))%></td>
+						</tr>
+						<tr>
+							<th>생성날짜</th><td><%=(String)(list.get("createDate"))%></td>
+						</tr>
+						<tr>
+							<th>수정날짜</th><td><%=(String)(list.get("updateDate"))%></td>
+						</tr>
+				</table>
+			</div>
+			<div class="col-4"></div>
+		</div>
 </body>
 </html>
