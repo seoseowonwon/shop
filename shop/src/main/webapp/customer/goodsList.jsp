@@ -80,6 +80,11 @@
 			float:left;
 			margin: 50px;
 		}
+		
+		a{
+			text-decoration : none;
+			color: black;
+		}
 	</style>
 </head>
 <body>
@@ -148,18 +153,22 @@
 				<%
 					if(currentPage > 1){
 				%>
-					  	<a href="/shop/customer/goodsList.jsp?currentPage=1&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">처음</a>
+					  	<a href="/shop/customer/goodsList.jsp?currentPage=1&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">처음</a></button>
+				<button type="button" class="btn btn-light"  >
 					  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">이전</a>
 				<%
 					}
 				%>
 					</button>
+					
 					<button type="button" class="btn btn-light" id="currentNum"><%=currentPage%></button>
 					<button type="button" class="btn btn-light">
 				<%
 					if(currentPage < lastPage){
 				%>
 					  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">다음</a>
+					  	</button>
+					<button type="button" class="btn btn-light">  	
 					  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=lastPage %>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">마지막</a>
 				<%
 					} 
