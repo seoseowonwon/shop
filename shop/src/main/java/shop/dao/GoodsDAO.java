@@ -30,6 +30,45 @@ public class GoodsDAO {
 		conn.close();
 	}
 	*/
+	//goodsOne.jsp
+	
+	
+public static HashMap<String, Object> goodsOne (int goodsNo) throws Exception {
+		
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "SELECT goods_no goodsNo, category,"
+				+ " emp_id empId, goods_title goodsTitle,"
+				+ " filename, goods_content goodsContent,"
+				+ " goods_price goodsPrice,"
+				+ " goods_amount goodsAmount"
+				+ " FROM goods WHERE goods_no = ?";
+		PreparedStatement stmt = null; 	
+		ResultSet rs = null;
+		stmt=conn.prepareStatement(sql);
+		stmt.setInt(1,goodsNo);
+		System.out.println("empOneDAO stmt --> "+stmt);
+		rs = stmt.executeQuery();
+		
+		
+		HashMap<String, Object> resultMap = null;
+		if(rs.next()) {
+			resultMap = new HashMap<String, Object>();
+			resultMap.put("goodsNo", rs.getString("goodsNo"));
+			resultMap.put("category", rs.getString("category"));
+			resultMap.put("empId", rs.getString("empId"));
+			resultMap.put("goodsTitle", rs.getString("goodsTitle"));
+			resultMap.put("filename", rs.getString("filename"));
+			resultMap.put("goodsContent", rs.getString("goodsContent"));
+			resultMap.put("goodsPrice", rs.getString("goodsPrice"));
+			resultMap.put("goodsAmount", rs.getString("goodsAmount"));
+			
+		}
+		
+		conn.close();
+		return resultMap;
+	}
+	
 	
 	// 고객 로그인 후 상품목록 페이지
 	// /customer/goodsList.jsp
@@ -151,6 +190,23 @@ public class GoodsDAO {
 		
 		return categoryList;
 		
+	}
+	
+	public static ArrayList<String> selcetCategoryList() throws Exception {
+		String sql = null;
+		sql = "select category from goods group by category";
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		stmt = conn.prepareStatement(sql);
+		ResultSet rs = null;
+		rs = stmt.executeQuery();
+		ArrayList<String> categoryList = new ArrayList<String>();
+		
+		while(rs.next()){
+			categoryList.add(rs.getString("category"));
+		}
+		
+		return categoryList;
 	}
 	
 	

@@ -78,6 +78,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>goodsList</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<style>
 		.yo{
 				float:left;
@@ -97,53 +98,55 @@
 	</div>
 
 	<!-- 서브메뉴 카테고리별 상품리스트 -->
-	
-	<div>
-		<a href="/shop/emp/goodsList.jsp">전체</a>
-		<%
-			for(HashMap m : categoryList) {
-		%>
-				<a href="/shop/emp/goodsList.jsp?category=<%=(String)(m.get("category"))%>">
-					<%=(String)(m.get("category"))%>
-					(<%=(Integer)(m.get("cnt"))%>)
-				</a>	
-		<%		
-			}
-		%>
-	</div>
-
-	<div>
-	
-	<%
-			for(HashMap ms : selectGoodsList){
-	%>
-					<div class="yo">
-						<div><img alt="이미지" src="/shop/upload/<%=(String)(ms.get("filename"))%>" width="200" height ="200"></div>
-						<div>카테고리: <%=(String)(ms.get("category")) %></div>
-						<div>번호: <a href="/shop/emp/goodsListOne.jsp?goodsNo=<%=(Integer)(ms.get("goodsNo")) %>"><%=(String)(ms.get("goodsTitle")) %></a></div>
-						<div>가격: <%=(Integer)(ms.get("goodsPrice")) %></div>
-						<div>수량: <%=(Integer)(ms.get("goodsAmount")) %></div>
-					</div>
-				
-	<%			 
-			}
-	%>
-	</div>
-	<div class="d-flex justify-content-center btn-group position-absolute bottom-0 start-50 translate-middle-x" role="group" aria-label="Basic example">
+	<div class="container-fluid">
+  
+		<div>
+			<a href="/shop/emp/goodsList.jsp">전체</a>
 			<%
-				if(currentPage > 1){
+				for(HashMap m : categoryList) {
 			%>
-					  	<a href="/shop/emp/goodsList.jsp?currentPage=1&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">처음</a>
-					  	<a href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">이전</a>
-			<%
+					<a href="/shop/emp/goodsList.jsp?category=<%=(String)(m.get("category"))%>">
+						<%=(String)(m.get("category"))%>
+						(<%=(Integer)(m.get("cnt"))%>)
+					</a>	
+			<%		
 				}
-				if(currentPage < lastPage){
 			%>
-					  	<a href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">다음</a>
-					  	<a href="/shop/emp/goodsList.jsp?currentPage=<%=lastPage %>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">마지막</a>
-			<%
-				} 
-			%>
+		</div>
+	
+		<div>
+		
+		<%
+				for(HashMap ms : selectGoodsList){
+		%>
+						<div class="yo">
+							<div><img alt="이미지" src="/shop/upload/<%=(String)(ms.get("filename"))%>" width="200" height ="200"></div>
+							<div>카테고리: <%=(String)(ms.get("category")) %></div>
+							<div>번호: <a href="/shop/emp/goodsListOne.jsp?goodsNo=<%=(Integer)(ms.get("goodsNo")) %>"><%=(String)(ms.get("goodsTitle")) %></a></div>
+							<div>가격: <%=(Integer)(ms.get("goodsPrice")) %></div>
+							<div>수량: <%=(Integer)(ms.get("goodsAmount")) %></div>
+						</div>
+					
+		<%			 
+				}
+		%>
+		</div>
+		<div class="d-flex justify-content-center btn-group position-absolute bottom-0 start-50 translate-middle-x" role="group" aria-label="Basic example">
+				<%
+					if(currentPage > 1){
+				%>
+						  	<a href="/shop/emp/goodsList.jsp?currentPage=1&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">처음</a>
+						  	<a href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">이전</a>
+				<%
+					}
+					if(currentPage < lastPage){
+				%>
+						  	<a href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">다음</a>
+						  	<a href="/shop/emp/goodsList.jsp?currentPage=<%=lastPage %>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">마지막</a>
+				<%
+					} 
+				%>
+		</div>
 	</div>
 </body>
 </html>

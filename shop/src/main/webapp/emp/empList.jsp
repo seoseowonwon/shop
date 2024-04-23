@@ -130,66 +130,67 @@
 	<div>
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
-
-	<div class="m-4 d-flex justify-content-between">
-		<div>&nbsp;</div>
-		<h1>직원 리스트</h1>
-		<div>&nbsp;</div>
-	</div>
-	<div>
-		<table border="1"  class="table table-hover">
-			<tr>
-				<th>이메일</th>
-				<th>이름</th>
-				<th>직책</th>
-				<th>고용날짜</th>
-				<th>관리자</th>
-			</tr>
-			<%
-				for(HashMap<String, Object> m : list){
-			%>
+	<div class="container">
+		<div class="m-4 d-flex justify-content-between">
+			<div>&nbsp;</div>
+			<h1>직원 리스트</h1>
+			<div>&nbsp;</div>
+		</div>
+		<div>
+			<table border="1"  class="table table-hover">
 				<tr>
-					<td><a class="a" href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empId"))%></a></td>
-					<td><a class="a" href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empName"))%></a></td>
-					<td><a class="a" href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empJob"))%></a></td>
-					<td><a class="a" href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("hireDate"))%></a></td>
-					<td>
-						<a href="/shop/emp/modifyEmpActive.jsp?active=<%=(String)(m.get("active"))%>&empId=<%=(String)(m.get("empId"))%>">
-							<%=(String)(m.get("active"))%>
-						</a>
-					</td>
+					<th>이메일</th>
+					<th>이름</th>
+					<th>직책</th>
+					<th>고용날짜</th>
+					<th>관리자</th>
 				</tr>
-			<%
-				}
-			%>
-		</table>
-		<div class="d-flex justify-content-center btn-group" role="group" aria-label="Basic example">
-			<button type="button" class="btn btn-light"  >
 				<%
-					if(currentPage > 1){
+					for(HashMap<String, Object> m : list){
 				%>
-					<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage -1%>" class="aTags">이전</a>
-				<%
-					}else{
-				%>
-					<a style="color: grey; cursor: not-allowed;" class="aTags" >이전</a>
+					<tr>
+						<td><a class="a" href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empId"))%></a></td>
+						<td><a class="a" href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empName"))%></a></td>
+						<td><a class="a" href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("empJob"))%></a></td>
+						<td><a class="a" href="/shop/emp/empOne.jsp?empId=<%=(String)(m.get("empId"))%>"><%=(String)(m.get("hireDate"))%></a></td>
+						<td>
+							<a href="/shop/emp/modifyEmpActive.jsp?active=<%=(String)(m.get("active"))%>&empId=<%=(String)(m.get("empId"))%>">
+								<%=(String)(m.get("active"))%>
+							</a>
+						</td>
+					</tr>
 				<%
 					}
 				%>
-			</button>
-			<button type="button" class="btn btn-light" id="currentNum"><%=currentPage%></button>
-			<button type="button" class="btn btn-light">
-				<%if(currentPage < lastPage ){
-				%>
-					<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage +1%>" class="aTags">다음</a>		
-				<%
-				}else{
-				%>
-					<a style="color: grey; cursor: not-allowed;" class="aTags">다음</a>
-				<%
-				}
-				%>
-			</button>
+			</table>
+			<div class="d-flex justify-content-center btn-group" role="group" aria-label="Basic example">
+				<button type="button" class="btn btn-light"  >
+					<%
+						if(currentPage > 1){
+					%>
+						<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage -1%>" class="aTags">이전</a>
+					<%
+						}else{
+					%>
+						<a style="color: grey; cursor: not-allowed;" class="aTags" >이전</a>
+					<%
+						}
+					%>
+				</button>
+				<button type="button" class="btn btn-light" id="currentNum"><%=currentPage%></button>
+				<button type="button" class="btn btn-light">
+					<%if(currentPage < lastPage ){
+					%>
+						<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage +1%>" class="aTags">다음</a>		
+					<%
+					}else{
+					%>
+						<a style="color: grey; cursor: not-allowed;" class="aTags">다음</a>
+					<%
+					}
+					%>
+				</button>
+			</div>
 		</div>
 	</div>
 </body>

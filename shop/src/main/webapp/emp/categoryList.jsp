@@ -48,7 +48,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg bg-light">
 	<div class="container-fluid container">
-		<a class="navbar-brand" href="#">coonpang</a>
+		<a class="navbar-brand" href="#">HANGER</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 			data-bs-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -61,8 +61,6 @@
 					class="nav-link">사원관리</a></li>
 				<li class="nav-item"><a href="/shop/emp/categoryList.jsp"
 					class="nav-link">카테고리관리</a></li>
-				<li class="nav-item"><a href="/shop/emp/addCategoryForm.jsp"
-					class="nav-link">카테고리추가</a></li>
 				<li class="nav-item"><a href="/shop/emp/goodsList.jsp"
 					class="nav-link">상품관리</a></li>
 				<li class="nav-item"><a href="/shop/emp/addGoodsForm.jsp"

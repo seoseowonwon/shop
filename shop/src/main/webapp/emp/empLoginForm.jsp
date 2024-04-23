@@ -22,9 +22,19 @@ if (session.getAttribute("loginEmp") != null) {
 	flex-direction: column;
 	align-items: center;
 }
+
 </style>
 </head>
 <body>
+	<nav class="navbar navbar-light">
+		<div class="container">
+			<a class="navbar-brand" href="/shop/emp/empLoginForm.jsp"> <img
+				src="/shop/upload/hanger.jpg" alt="사진" width="200"
+				height="200">
+			</a>
+		</div>
+	</nav>
+	
 	<div class="container">
 		<form action="/shop/emp/empLoginAction.jsp">
 			<table>
