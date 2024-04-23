@@ -1,4 +1,4 @@
-package shop.dao;
+package shop;
 
 import java.io.FileReader;
 import java.sql.*;

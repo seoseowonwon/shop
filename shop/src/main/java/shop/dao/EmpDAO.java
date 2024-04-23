@@ -3,6 +3,8 @@ package shop.dao;
 import java.sql.*;
 import java.util.*;
 
+import shop.DBHelper;
+
 
 // emp 테이블을 CRUD하는 STATIC 메서드의 컨테이너 역할 
 // 1. 메서드 사용하는 이유는 짧게 호출하기 위해 2. 반복되는 것을 호출할려고

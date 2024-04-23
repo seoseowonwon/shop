@@ -4,36 +4,80 @@ import java.sql.*;
 
 import java.util.*;
 
+import shop.DBHelper;
 import shop.dao.*;
 
 public class GoodsDAO {
-	/* 페이징
-	 * public static ArrayList<HashMap<String, Object>> selectGoodsList (int startRow, int rowPerPage) throws Exception{
-		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+	
+	
+	// 상품 수량 수정
+	// 파라미터 : goodsNo, amount
+	// goodsNo가 같은 상품의 amount를 파라미터 amount 만큼 빼서 수정, 성공 1 실패 0 반환(int)
+	public static int updateGoodsAmount(int goodsNo, int amount) throws Exception {
+		String sql = null;
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		// 파라미터 amount가 0이상이면 주문이므로 상품의 수량이 amount보다 많아야됨. 0미만일 경우 주문 취소이므로 상품의 수량은 상관없음 
+		if(amount > 0) {
+			sql = "update goods set goods_amount = goods_amount - ?,  update_date = now() where goods_no = ? and goods_amount > ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, amount);
+			stmt.setInt(2, goodsNo);
+			stmt.setInt(3, goodsNo - 1);
+			System.out.println("updateGoodsAmount > 0stmt -->" + stmt);
+		} else {
+			sql = "update goods set goods_amount = goods_amount - ?,  update_date = now() where goods_no = ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, amount);
+			stmt.setInt(2, goodsNo);
+			System.out.println("updateGoodsAmount ==0 stmt -->"+stmt);
+		}
+		int row = 0;
+		row = stmt.executeUpdate();
+		System.out.println("updateGoodsAmount row -->"+ row);
+		return row;
+	}
+
+
+	// 상품 상세보기
+	// 파라미터 : goodsNo
+	// goodsNo 값이 같은 상품 반환(HashMap)
+	public static HashMap<String, Object> selectGoods(int goodsNo) throws Exception{
+		
+		String sql = null;
+		sql = "select goods_no goodsNo, category, emp_id empId, goods_title " + 
+				"goodsTitle, filename, goods_content goodsContent, goods_price goodsPrice, goods_amount goodsAmount, " + 
+				"update_date updateDate, create_date createDate from goods where goods_no = ?";
 		
 		Connection conn = DBHelper.getConnection();
-		String sql = "select goods_no goodsNo, category "
-				+ "from goods"
-				+ "order by create_date desc"
-				+ "limit ?, ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, startRow);
-		stmt.setInt(2,  rowPerPage);
+		PreparedStatement stmt = null;
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, goodsNo);
+		ResultSet rs = null;
+		rs = stmt.executeQuery();
 		
-		ResultSet rs = stmt.executeQuery();
-		while(rs.next()) {
-			HashMap<String, Object> m = new HashMap<String, Object>();
-			m.put("goodsNo", rs.getString("goodsNo"));
-			m.put("goodsNo", rs.getString("category"));
-			list.add(m);
+		HashMap<String, Object> m = new HashMap<>();
+		if(rs.next()){
+			
+			m.put("goodsNo", rs.getInt("goodsNo"));
+			m.put("category", rs.getString("category"));
+			m.put("empId", rs.getString("empId"));
+			m.put("goodsTitle", rs.getString("goodsTitle"));
+			m.put("filename", rs.getString("filename"));
+			m.put("goodsContent", rs.getString("goodsContent"));
+			m.put("goodsPrice", rs.getInt("goodsPrice"));
+			m.put("goodsAmount", rs.getInt("goodsAmount"));
+			m.put("updateDate", rs.getString("updateDate"));
+			m.put("createDate", rs.getString("createDate"));
 		}
-		conn.close();
+		
+		return m;
 	}
-	*/
+
+
+	
 	//goodsOne.jsp
-	
-	
-public static HashMap<String, Object> goodsOne (int goodsNo) throws Exception {
+	public static HashMap<String, Object> goodsOne (int goodsNo) throws Exception {
 		
 		Connection conn = DBHelper.getConnection();
 		

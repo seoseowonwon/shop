@@ -14,7 +14,14 @@
 	
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	HashMap<String, Object> list = GoodsDAO.goodsOne(goodsNo);
-%>    
+%>
+<%
+
+	System.out.println(goodsNo + "<-- goodsOne param goodsNo");
+	HashMap<String, Object> goods = GoodsDAO.selectGoods(goodsNo);
+	ArrayList<HashMap<String, Object>> reviewList = ReviewDAO.selectReviewList(goodsNo);
+%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,26 +39,52 @@
 <body>
 	<div class="container-fluid">
 	<div class="row">
-    		<div class="col-4"></div>
-    		<div class="col-4">
-				<div class = "text"><%=(String)(list.get("goodsTitle"))%></div>
-				<hr>
-				<div>
-					<img src="../upload/<%=(String)(list.get("filename")) %>" 
-						width="600" height ="600">
-				</div>
-				<hr>
-				<div>
-					<%=(String)(list.get("goodsContent"))%>
-				</div>
-				<hr>
-				
-				<div>가격: <%=(String)(list.get("goodsPrice"))%></div>
-				<hr>
-				<div>수량: <%=(String)(list.get("goodsAmount"))%></div>
-				<hr>
+   		<div class="col-4"></div>
+   		<div class="col-4">
+			<div class = "text"><%=(String)(list.get("goodsTitle"))%></div>
+			<hr>
+			<div>
+				<img src="../upload/<%=(String)(list.get("filename")) %>" 
+					width="600" height ="600">
 			</div>
-			<div class="col-4"></div>
+			<hr>
+			<div>
+				<%=(String)(list.get("goodsContent"))%>
+			</div>
+			<hr>
+			
+			<div>가격: <%=(String)(list.get("goodsPrice"))%></div>
+			<hr>
+			<div>수량: <%=(String)(list.get("goodsAmount"))%></div>
+			<hr>
+				<div>
+					<form method="post" action="/shop/customer/addOrders.jsp?">
+						수량 <input type="number" name="amount"> 주소 <input
+							type="text" name="address"> <input type="hidden"
+							name="goodsPrice"
+							value="<%=(Integer) (goods.get("goodsPrice"))%>"> <input
+							type="hidden" name="goodsNo" value="<%=goodsNo%>">
+
+						<button type="submit">주문</button>
+					</form>
+				</div>
+				<hr>
+			<div>
+				<div>상품후기</div>
+				<%
+					for(HashMap m : reviewList){
+				%>
+						<div>
+							<div><%=m.get("score") %></div>
+							<div><%=m.get("content") %></div>
+						</div>
+				<%
+					}
+				%>
+			</div>
 		</div>
+		</div>
+		<div class="col-4"></div>
+	</div>
 </body>
 </html>

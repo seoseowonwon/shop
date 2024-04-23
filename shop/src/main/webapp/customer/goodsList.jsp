@@ -90,7 +90,7 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid container">
-    <a class="navbar-brand" href="#">WhiteUp</a>
+    <a class="navbar-brand" href="#">HANGER</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -117,6 +117,7 @@
           <a href="/shop/customer/logout.jsp" class="nav-link">로그아웃</a>
         </li>
       </ul>
+      
       <form method="get" action="/shop/customer/goodsList.jsp" class="d-flex" role="search">
         <input class="form-control me-2" 
         		type="text" placeholder="상품이름" 
