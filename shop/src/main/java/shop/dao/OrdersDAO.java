@@ -20,14 +20,23 @@ public class OrdersDAO {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		
 		String sql = null;
-		sql = "select o.orders_no ordersNo, o.goods_no goodsNo, o.mail mail, o.total_amount totalAmount, o.total_price totalPrice,"
-				+ "o.address address, o.state state, o.update_date updateDate, o.create_date createDate, "
-				+ "g.goods_title goodsTitle, g.category category, g.goods_price goodsPrice "
-				+ "from orders o inner join goods g "
-				+ "on o.goods_no = g.goods_no "
-				+ "where o.mail = ? "
-				+ "order by o.orders_no desc "
-				+ "limit ?, ?";
+		sql = "select"
+				+ " o.orders_no ordersNo,"
+				+ " o.goods_no goodsNo,"
+				+ " o.mail mail,"
+				+ " o.total_amount totalAmount,"
+				+ " o.total_price totalPrice,"
+				+ " o.address address,"
+				+ " o.state state,"
+				+ " o.update_date updateDate,"
+				+ " o.create_date createDate,"
+				+ " g.goods_title goodsTitle,"
+				+ " g.goods_price goodsPrice"
+				+ " from orders o inner join goods g"
+				+ " on o.goods_no = g.goods_no"
+				+ " where o.mail = ?"
+				+ " order by o.orders_no desc"
+				+ " limit ?, ?";
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(sql);
@@ -66,13 +75,23 @@ public class OrdersDAO {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		
 		String sql = null;
-		sql = "select o.orders_no ordersNo, o.goods_no goodsNo, o.mail mail, o.total_amount totalAmount, o.total_price totalPrice, "
-				+ "o.address address, o.state state, o.update_date updateDate, o.create_date createDate, "
-				+ "g.goods_title goodsTitle, g.category category, g.goods_price goodsPrice "
-				+ "from orders o inner join goods g "
-				+ " on o.goods_no = g.goods_no "
-				+ "order by o.orders_no desc "
-				+ "limit 0, 10";
+		sql = "select"
+				+ " o.orders_no ordersNo,"
+				+ " o.goods_no goodsNo,"
+				+ " o.mail mail,"
+				+ " o.total_amount totalAmount,"
+				+ " o.total_price totalPrice,"
+				+ " o.address address,"
+				+ " o.state state,"
+				+ " o.update_date updateDate,"
+				+ " o.create_date createDate,"
+				+ " g.goods_title goodsTitle,"
+				+ " g.category category,"
+				+ " g.goods_price goodsPrice"
+				+ " from orders o inner join goods g"
+				+ " on o.goods_no = g.goods_no"
+				+ " order by o.orders_no desc"
+				+ " limit 0, 10";
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(sql);
@@ -167,9 +186,18 @@ public class OrdersDAO {
 	// ordersNO가 같은 orders를 반환(HashMap<String, Object>)
 	public static HashMap<String, Object> selectOrders(int ordersNo) throws Exception {
 		String sql = null;
-		sql = "select orders_no ordersNo, mail, goods_no goodsNo, total_amount totalAmount, total_price totalPrice, address, state, update_date updateDate, create_date createDate "
-				+ "from orders "
-				+ "where orders_no = ?";
+		sql = "select"
+				+ " orders_no ordersNo,"
+				+ " mail,"
+				+ " goods_no goodsNo,"
+				+ " total_amount totalAmount,"
+				+ " total_price totalPrice,"
+				+ " address,"
+				+ " state,"
+				+ " update_date updateDate,"
+				+ " create_date createDate"
+				+ " from orders"
+				+ " where orders_no = ?";
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		stmt = conn.prepareStatement(sql);

@@ -18,14 +18,14 @@ public class GoodsDAO {
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		// 파라미터 amount가 0이상이면 주문이므로 상품의 수량이 amount보다 많아야됨. 0미만일 경우 주문 취소이므로 상품의 수량은 상관없음 
-		if(amount > 0) {
+		if(amount > 0) { //수량이 0보다 많을 경우 실행
 			sql = "update goods set goods_amount = goods_amount - ?,  update_date = now() where goods_no = ? and goods_amount > ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, amount);
 			stmt.setInt(2, goodsNo);
-			stmt.setInt(3, goodsNo - 1);
+			stmt.setInt(3, amount - 1);
 			System.out.println("updateGoodsAmount > 0stmt -->" + stmt);
-		} else {
+		} else { // 수량이 0이거나 작을경우 실행
 			sql = "update goods set goods_amount = goods_amount - ?,  update_date = now() where goods_no = ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, amount);

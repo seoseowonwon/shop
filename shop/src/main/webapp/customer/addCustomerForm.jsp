@@ -13,8 +13,8 @@
 	String checkedEmail = request.getParameter("checkEmail");
 	String check = request.getParameter("check");
 
-	System.out.println(checkedEmail + "<-- addCustomerAction param checkedEmail");
-	System.out.println(check + "<-- addCustomerAction param check");
+	System.out.println("addCustomerAction param checkedEmail --> " + checkedEmail );
+	System.out.println("addCustomerAction param check --> " + check );
 	
 	//검사한 이메일 checkEmail, 검사 완료 후 사용가능 판정난 이메일 checkedEmail
 	String checkEmail = null;
@@ -55,7 +55,7 @@
 
 				<form method="post" action="/shop/customer/checkMailAction.jsp">
 					<div class="input-group mb-3">
-						<input type="email" class="form-control" placeholder="이메일 중복확인" name="customerEmail" value="<%=checkEmail%>">
+						<input type="email" class="form-control" placeholder="이메일 중복확인" name="customerEmail">
 						<button type="submit">확인</button>
 	     			</div>
 				</form>

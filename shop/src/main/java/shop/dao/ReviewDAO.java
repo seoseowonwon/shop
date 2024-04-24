@@ -21,7 +21,7 @@ public class ReviewDAO {
 		Connection conn = DBHelper.getConnection();
 		
 		String sql = null;
-		sql = "insert into review(orders_no, score, content) values(?, ?, ?)";
+		sql = "insert into comment(orders_no, score, content) values(?, ?, ?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, ordersNo);
 		stmt.setInt(2, score);
@@ -29,12 +29,18 @@ public class ReviewDAO {
 		System.out.println(stmt);
 		row = stmt.executeUpdate();
 		
+		conn.close();
 		return row;
 	}
 	
 	// 리뷰 목록
 	// 파라미터 : goodsNo
 	// goodsNo가 같은 orders들을 반환(ArrayList<HashMap<String, Object>>)
+	/**
+	 * @param goodsNo
+	 * @return
+	 * @throws Exception
+	 */
 	public static ArrayList<HashMap<String, Object>> selectReviewList(int goodsNo)throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 		
@@ -43,10 +49,10 @@ public class ReviewDAO {
 		String sql = null;
 		sql = "select c.score, c.content, o.goods_no goodsNo, o.orders_no ordersNo "
 				+ "from comment c inner join orders o"
-				+ " where c.orders_no = o.orders_no and o.goods_no = ? ";
+				+ " where c.orders_no = o.orders_no and o.goods_no = ? "; // 같은 상품이고 그 해당 물품의 제품번호
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, goodsNo);
-		System.out.println(stmt);
+		System.out.println("ReviewDAO selectReviewList stmt--> " + stmt);
 		ResultSet rs = stmt.executeQuery();
 		
 		while(rs.next()) {
@@ -58,10 +64,18 @@ public class ReviewDAO {
 			
 			list.add(m);
 		}
+		//디버깅
+		for (HashMap<String, Object> m : list) {
+			
+			System.out.println("reviewdao selectReviewList score --> "+m.get("score"));
+			System.out.println("reviewdao selectReviewList content --> "+m.get("content"));
+			System.out.println("reviewdao selectReviewList goodsNo --> "+m.get("goodsNo"));
+			System.out.println("reviewdao selectReviewList ordersNo --> "+m.get("ordersNo"));
+			
+		}
 		
-		
+		conn.close();
 		return list;
-		
 	}
 	
 	// 리뷰 검색
@@ -73,7 +87,7 @@ public class ReviewDAO {
 		Connection conn = DBHelper.getConnection();
 		
 		String sql = null;
-		sql = "select score, content, orders_no from review where orders_no = ? ";
+		sql = "select score, content, orders_no from comment where orders_no = ? ";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, ordersNo);
 		System.out.println(stmt);
@@ -83,6 +97,7 @@ public class ReviewDAO {
 			reuslt = false;
 		}
 		
+		conn.close();
 		return reuslt;
 	}
 	
@@ -101,6 +116,7 @@ public class ReviewDAO {
 		System.out.println(stmt);
 		row = stmt.executeUpdate();
 		
+		conn.close();
 		return row;
 	}
 	

@@ -3,7 +3,7 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.net.URLEncoder"%>
 <%@ page import="java.sql.*" %>
-<%@ page import ="shop.dao.*" %>
+<%@ page import="shop.dao.*" %>
 <%
 	//로그인 인증 분기
 	if(session.getAttribute("loginCustomer") == null){
@@ -85,99 +85,117 @@
 			text-decoration : none;
 			color: black;
 		}
+		
+		
+		
 	</style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid container">
-    <a class="navbar-brand" href="#">HANGER</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a href="/shop/customer/goodsList.jsp?order=<%=order %>&goodsTitle=<%=goodsTitle %>" 
-          class="nav-link active" aria-current="page">전체</a>
-        </li>
-        <%
-			for(HashMap m : categoryList) {
-		%>
-	        <li class="nav-item">
-	          <a class="nav-link" href="/shop/customer/goodsList.jsp?category=<%=(String)(m.get("category"))%>"><%=(String)(m.get("category"))%>(<%=(Integer)(m.get("cnt"))%>)
-	          </a>
-	        </li>
-	    <%
-			}
-		%>
-        <li class="nav-item">
-          <a href="addCustomerForm.jsp" class="nav-link">회원가입</a>
-        </li>
-         <li class="nav-item">
-          <a href="/shop/customer/logout.jsp" class="nav-link">로그아웃</a>
-        </li>
-      </ul>
-      
-      <form method="get" action="/shop/customer/goodsList.jsp" class="d-flex" role="search">
-        <input class="form-control me-2" 
-        		type="text" placeholder="상품이름" 
-        		aria-label="Search" name="goodsTitle"  
-        		value="<%=goodsTitle %>">
-        <button class="btn btn-outline-success" type="submit">search</button>
-        
-      </form>
-    </div>
-  </div>
-</nav>
-		
-		<!-- 상품 이미지 정보등 표시 -->
-		<%
-			for(HashMap m : selectGoodsList) {
-		%>
-				<!-- 한 물품의 정보 -->
-				<div class="yo">
-					<a href="/shop/customer/goodsOne.jsp?goodsNo=<%=(Integer)(m.get("goodsNo")) %>">
-						<img src="../upload/<%=(String)(m.get("filename")) %>" width="200" height ="200">
-					</a>
-					<div>
-							[<%=(String)(m.get("category")) %>]
-					</div>
-					<div>
-						<a href="/shop/customer/goodsOne.jsp?goodsNo=<%=(Integer)(m.get("goodsNo")) %>">
-							<%=(String)(m.get("goodsTitle")) %>
-						</a>
-					</div>
-					<div>가격: <%=(Integer)(m.get("goodsPrice")) %></div>
-				</div>
-		<%
-			}
-		%>
-			<div class="d-flex justify-content-center btn-group position-absolute bottom-0 start-50 translate-middle-x" role="group" aria-label="Basic example">
-				<button type="button" class="btn btn-light"  >
-				<%
-					if(currentPage > 1){
+
+	<jsp:include page="/customer/inc/customerMenu.jsp"></jsp:include>
+	<nav class="navbar navbar-expand-lg bg-light">
+	  <div class="container-fluid container">
+	      <form method="get" action="/shop/customer/goodsList.jsp" class="d-flex text-white" role="search">
+	        <input class="form-control me-2 text-white" 
+	        		type="text" placeholder="상품이름" 
+	        		aria-label="Search" name="goodsTitle"  
+	        		value="<%=goodsTitle %>">
+	        <button class="btn btn-outline-success" type="submit">search</button>
+	      </form>
+	    
+	    </div>
+	  </div>
+	</nav>
+ 		<div class="row">
+   		<div class="col-2">
+   			<div>
+	   			<table class="table">
+	   				<tr>
+	   					<td>
+	   						<a href="/shop/customer/goodsList.jsp?order=<%=order %>&goodsTitle=<%=goodsTitle %>" 
+	          					class="nav-link active" aria-current="page">전체</a>
+	   					</td>
+	   					<td></td>
+	   				</tr>
+	   			<%
+					for(HashMap m : categoryList) {
 				%>
-					  	<a href="/shop/customer/goodsList.jsp?currentPage=1&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">처음</a></button>
-				<button type="button" class="btn btn-light"  >
-					  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">이전</a>
-				<%
+			          <tr>
+			          	<td>
+				          	<a class="nav-link" href="/shop/customer/goodsList.jsp?category=<%=(String)(m.get("category"))%>"><%=(String)(m.get("category"))%>
+				          		</a>
+			          	</td>
+			          	<td>
+			          		<a class="nav-link" href="/shop/customer/goodsList.jsp?category=<%=(String)(m.get("category"))%>">(<%=(Integer)(m.get("cnt"))%>)
+			          		</a>
+			          	</td>
+			          </tr>
+			    <%
 					}
 				%>
-					</button>
-					
-					<button type="button" class="btn btn-light" id="currentNum"><%=currentPage%></button>
-					<button type="button" class="btn btn-light">
-				<%
-					if(currentPage < lastPage){
-				%>
-					  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">다음</a>
-					  	</button>
-					<button type="button" class="btn btn-light">  	
-					  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=lastPage %>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">마지막</a>
-				<%
-					} 
-				%>
-					</button>
+	   			</table>
+   			</div>
+   		
+   		
+   		
+   		
+   		
+   		
+   		
+   		</div>
+   		<div class="col-10">
+			<!-- 상품 이미지 정보등 표시 -->
+			<%
+				for(HashMap m : selectGoodsList) {
+			%>
+					<!-- 한 물품의 정보 -->
+					<div class="yo">
+						<a href="/shop/customer/goodsOne.jsp?goodsNo=<%=(Integer)(m.get("goodsNo")) %>">
+							<img src="../upload/<%=(String)(m.get("filename")) %>" width="200" height ="200">
+						</a>
+						<div>
+								[<%=(String)(m.get("category")) %>]
+						</div>
+						<div>
+							<a href="/shop/customer/goodsOne.jsp?goodsNo=<%=(Integer)(m.get("goodsNo")) %>">
+								<%=(String)(m.get("goodsTitle")) %>
+							</a>
+						</div>
+						<div>가격: <%=(Integer)(m.get("goodsPrice")) %></div>
+					</div>
+			<%
+				}
+			%>
+				<div class="d-flex justify-content-center btn-group position-absolute bottom-0 start-50 translate-middle-x" role="group" aria-label="Basic example">
+					<button type="button" class="btn btn-light"  >
+					<%
+						if(currentPage > 1){
+					%>
+						  	<a href="/shop/customer/goodsList.jsp?currentPage=1&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">처음</a></button>
+					<button type="button" class="btn btn-light"  >
+						  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">이전</a>
+					<%
+						}
+					%>
+						</button>
+						
+						<button type="button" class="btn btn-light" id="currentNum"><%=currentPage%></button>
+						<button type="button" class="btn btn-light">
+					<%
+						if(currentPage < lastPage){
+					%>
+						  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">다음</a>
+						  	</button>
+						<button type="button" class="btn btn-light">  	
+						  	<a href="/shop/customer/goodsList.jsp?currentPage=<%=lastPage %>&category=<%=category%>&startRow=<%=startRow%>&rowPerPage=<%=rowPerPage%>">마지막</a>
+					<%
+						} 
+					%>
+						</button>
+				</div>
 			</div>
+		</div>
+	</div>
+			
 </body>
 </html>

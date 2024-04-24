@@ -37,6 +37,7 @@
 </style>
 </head>
 <body>
+	<jsp:include page="/customer/inc/customerMenu.jsp"></jsp:include>
 	<div class="container-fluid">
 	<div class="row">
    		<div class="col-4"></div>
@@ -68,17 +69,30 @@
 						<button type="submit">주문</button>
 					</form>
 				</div>
-				<hr>
+			<hr>
 			<div>
-				<div>상품후기</div>
+			
 				<%
-					for(HashMap m : reviewList){
+					if(reviewList != null){
 				%>
-						<div>
-							<div><%=m.get("score") %></div>
-							<div><%=m.get("content") %></div>
-						</div>
+						
+						<table class="table table-striped">
 				<%
+						for(HashMap m : reviewList){
+							System.out.println("상품후기 작동중!");
+				%>
+							<tr>
+								<td>별점: </td>
+								<td> <%=m.get("score") %></td>
+							</tr>
+							
+							<tr>
+								<td>후기: </td>
+								<td><%=m.get("content") %></td>
+							</tr>
+						</table>
+				<%
+						}
 					}
 				%>
 			</div>
