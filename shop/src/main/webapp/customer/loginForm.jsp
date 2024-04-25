@@ -20,38 +20,41 @@
 	display: flex;
 	flex-direction: column;
 }
+.text {
+	text-align: center;
+}
+
+.img {
+	text-align: center;
+}
 
 </style>
 </head>
-<body>
-
-	<nav class="navbar navbar-light">
-		<div class="container">
-			<a class="navbar-brand" href="/shop/customer/loginForm.jsp"> <img
-				src="/shop/upload/hanger.jpg" alt="사진" width="200"
-				height="200">
-			</a>
-		</div>
-	</nav>
-	<hr>
-	<div class="container">
-  		<div class="row">
-    		<div class="col-4"></div>
-    		<div class="col-4">
-     			<form method="post" action="loginAction.jsp">
-     				
-					<div class="input-group mb-3">
-						<input type="email" class="form-control" placeholder="이메일" name="customerEmail">
-     				</div>
-					<div class="input-group mb-3">
-					  <input type="password" class="form-control" placeholder="비밀번호" name="customerPw">
-					  <button class="btn btn-success" type="submit">제출</button>
-					</div>
-				</form>
-    		</div>
-   			<div class="col-4"></div>
-  		</div>
-	</div>
+<body class="container bg"><br>
+	<div class="row">
+		<div class="col-3"></div>
+		<div class="col-6 content shadow lgPgCenterDiv"><br>
+			<div class="img">
+		  		<a href="/shop/customer/loginForm.jsp" class="ssmAlink">
+		  			<span style="margin-left:5%"><img src="/shop/upload/hanger.jpg" style="width:200px;"></span>
+		  		</a>	
+			</div>
+			<h2>로그인</h2><hr style="border: 1px solid gray;"><br> 
+			<form method="post" action="loginAction.jsp">
+    				
+				<div class="input-group mb-3">
+					<input type="email" class="form-control" placeholder="이메일" name="customerEmail">
+    				</div>
+				<div class="input-group mb-3">
+				  <input type="password" class="form-control" placeholder="비밀번호" name="customerPw">
+				</div>
+				  <button class="form-control btn btn-primary btn-lg" type="submit">로그인</button>		
+			</form>
+    		<div class="text"><a href="/shop/emp/empLoginForm.jsp">직원로그인 페이지 이동</a></div>
+    		<div class="position-absolute top-100 start-50 translate-middle text" style="font-size: 12px;">made by 서기원 in goodee</div>
+   		</div>
+    	<div class="col-3"></div>
+    </div>
 	
 </body>
 </html>
