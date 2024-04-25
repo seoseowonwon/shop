@@ -49,7 +49,7 @@
 <body class="container bg-success" >
 	<div class="row">
 		<div class="col-1"></div>
-		<div class="col-10 content bg-white shadow lgPgCenterDiv">
+		<div class="col-10 content bg-white shadow lgPgCenterDiv" style = "height:100vh">
 			<nav class="navbar navbar-expand-lg bg-light">
 				<div class="container-fluid">
 					<a class="navbar-brand" href="#">HANGER</a>
@@ -101,14 +101,6 @@
 				</table>
 				<br>
 				<a class="btn btn btn-outline-secondary" href="/shop/emp/addCategoryForm.jsp" role="button">카테고리추가</a>
-	  			<br>
-	  			<br>
-	  			<br>
-	  			<br>
-	  			<br>
-	  			<br>
-	  			<br>
-	  			<br>
   			</div>
   			<div class="col-1"></div>
 	</div>

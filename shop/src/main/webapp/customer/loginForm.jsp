@@ -33,7 +33,7 @@
 <body class="container bg-success">
 	<div class="row">
 		<div class="col-3"></div>
-		<div class="col-6 content bg-white shadow lgPgCenterDiv"><br>
+		<div class="col-6 content bg-white shadow lgPgCenterDiv" style="height: 100vh"><br>
 			<div class="img">
 		  		<a href="/shop/customer/loginForm.jsp">
 		  			<span style="margin-left:5%"><img src="/shop/upload/hanger.jpg" style="width:200px;"></span>
@@ -52,26 +52,6 @@
 			</form>
 			<br>
     		<div class="text"><a href="/shop/emp/empLoginForm.jsp">직원로그인 페이지 이동</a></div>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<br>
-    		<div class="position-absolute top-100 start-50 translate-middle text" style="font-size: 12px;">made by 서기원 in goodee</div>
-    		<hr>
    		</div>
     	<div class="col-3"></div>
     </div>
