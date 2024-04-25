@@ -34,7 +34,7 @@
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 	System.out.println("goodsList currentPage --> " + currentPage);
-	int rowPerPage = 10;
+	int rowPerPage = 8;
 	int startRow = 10 * currentPage;
 	int lastPage = 0;
 	if (totalCnt % 10 == 0){
@@ -76,16 +76,18 @@
 	<link rel="stylesheet" href="/shop/css/goods.css">
 	
 	<style>
-		.yo{
-			float:left;
-			margin: 50px;
-		}
 		
-		a{
+		.a{
 			text-decoration : none;
 			color: black;
 		}
-		
+		.bordered-div {
+	        border: 1px solid gray; /* 테두리 스타일을 지정합니다. */
+	        padding: 10px; /* 내용과 테두리 사이의 여백을 지정합니다. */
+	        width: 250px;
+	        float:left;
+			margin: 50px;
+    }
 		
 		
 	</style>
@@ -141,7 +143,7 @@
 				for(HashMap m : selectGoodsList) {
 			%>
 					<!-- 한 물품의 정보 -->
-					<div class="yo">
+					<div class="bordered-div">
 						<a href="/shop/customer/goodsOne.jsp?goodsNo=<%=(Integer)(m.get("goodsNo")) %>">
 							<img src="../upload/<%=(String)(m.get("filename")) %>" width="200" height ="200">
 						</a>
@@ -149,7 +151,7 @@
 								[<%=(String)(m.get("category")) %>]
 						</div>
 						<div>
-							<a href="/shop/customer/goodsOne.jsp?goodsNo=<%=(Integer)(m.get("goodsNo")) %>">
+							<a class="a" href="/shop/customer/goodsOne.jsp?goodsNo=<%=(Integer)(m.get("goodsNo")) %>">
 								<%=(String)(m.get("goodsTitle")) %>
 							</a>
 						</div>

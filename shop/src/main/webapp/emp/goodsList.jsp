@@ -23,7 +23,7 @@
 	
 	
 	ArrayList<HashMap<String, Object>> alList = GoodsDAO.alList();
-		
+	
 %>
 
 <%
@@ -43,7 +43,7 @@
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 	System.out.println("goodsList currentPage --> " + currentPage);
-	int rowPerPage = 10;
+	int rowPerPage = 8;
 	int startRow = 10 * currentPage;
 	int lastPage = 0;
 	if (totalCnt % 10 == 0){
@@ -80,13 +80,13 @@
 	<title>goodsList</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<style>
-		.yo{
-				float:left;
-				margin: 50px;
-				width: 200px;
-				border: 1
-			}
-			
+		.bordered-div {
+	        border: 1px solid gray; /* 테두리 스타일을 지정합니다. */
+	        padding: 10px; /* 내용과 테두리 사이의 여백을 지정합니다. */
+	        width: 250px;
+	        float:left;
+			margin: 50px;
+   		 }
 		a{
 			text-decoration: none;
 			color: black;
@@ -149,7 +149,7 @@
 		<%
 				for(HashMap ms : selectGoodsList){
 		%>
-						<div class="yo">
+						<div class="bordered-div">
 							<div><img alt="이미지" src="/shop/upload/<%=(String)(ms.get("filename"))%>" width="200" height ="200"></div>
 							<div>카테고리: <%=(String)(ms.get("category")) %></div>
 							<div>번호: <a href="/shop/emp/goodsListOne.jsp?goodsNo=<%=(Integer)(ms.get("goodsNo")) %>"><%=(String)(ms.get("goodsTitle")) %></a></div>
