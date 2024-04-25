@@ -10,15 +10,59 @@ import shop.DBHelper;
 // 1. 메서드 사용하는 이유는 짧게 호출하기 위해 2. 반복되는 것을 호출할려고
 
 public class EmpDAO {
+	//empList ON OFF 값을 업데이트 해주는 구문
+	public static int updateState (String active, String empId) throws Exception{
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		String sql = "UPDATE emp"
+				+ " SET active = ?"
+				+ " WHERE emp_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,active);
+		
+		//받은 값이 OFF였을 경우
+		if (active.equals("OFF")) {
+			
+			//ON으로 변경해준다
+			stmt.setString(2,"ON");
+		} else { // 받은 값이 ON이었을 경우
+			//OFF로 변경해준다
+			stmt.setString(2,"OFF");
+		}
+		
+		stmt.setString(2, empId);
+		if(active.equals("ON")) {
+	        // active가 ON일 경우
+	        System.out.println("active가 ON일 경우");
+	        active = "OFF";
+	        stmt.setString(1, active);
+	    } else {    
+	        // active가 OFF일 경우
+	        System.out.println("active가 OFF일 경우");
+	        active = "ON";
+	       	stmt.setString(1, active);
+	    }
+	 	
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+	}
+	
+	
 	public static int insertEmp(String empId,String empPw, String empName, String empJob) throws Exception {
 		int row = 0;
 		
 		// DB 접근
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "insert into emp (emp_id empId, emp_pw empPw, "
-				+ "emp_name empName, emp_job empJob ) "
-				+ "values ( ?, ?, ?, ? )";
+		String sql = "insert into emp ("
+				+ " emp_id empId,"
+				+ " emp_pw empPw,"
+				+ " emp_name empName,"
+				+ " emp_job empJob "
+				+ " ) values ( ?, ?, ?, ? )";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1,empId);
 		stmt.setString(2,empPw);
@@ -65,10 +109,14 @@ public class EmpDAO {
 		
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "SELECT emp_id empId, emp_name empName,"
-				+ " emp_job empJob, hire_date hireDate, "
-				+ "create_date createDate, update_date updateDate "
-				+ "FROM emp WHERE emp_id = ?";
+		String sql = "SELECT"
+				+ " emp_id empId,"
+				+ " emp_name empName,"
+				+ " emp_job empJob,"
+				+ " hire_date hireDate,"
+				+ " create_date createDate,"
+				+ " update_date updateDate"
+				+ " FROM emp WHERE emp_id = ?";
 		PreparedStatement stmt = null; 	
 		ResultSet rs = null;
 		stmt=conn.prepareStatement(sql);
@@ -101,8 +149,13 @@ public class EmpDAO {
 		
 		Connection conn = DBHelper.getConnection();
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String sql = "SELECT emp_id empId, emp_name empName, emp_job empJob, "
-				+ "hire_date hireDate, active FROM emp";
+		String sql = "SELECT"
+				+ " emp_id empId,"
+				+ " emp_name empName,"
+				+ " emp_job empJob,"
+				+ " hire_date hireDate,"
+				+ " active"
+				+ " FROM emp";
 		PreparedStatement stmt = null; 	
 		ResultSet rs = null;
 		stmt=conn.prepareStatement(sql);

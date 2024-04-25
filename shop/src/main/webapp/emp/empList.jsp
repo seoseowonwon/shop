@@ -127,7 +127,7 @@
 </head>
 <body class="container bg-success">
 	<div class="row">
-		<div class="col-1"></div>
+		<div class="col-1 row-1"></div>
 		<div class="col-10 content bg-white shadow lgPgCenterDiv"><br>
 		<div>
 			<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
