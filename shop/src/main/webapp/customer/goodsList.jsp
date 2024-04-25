@@ -102,9 +102,7 @@
 	        		value="<%=goodsTitle %>">
 	        <button class="btn btn-outline-success" type="submit">search</button>
 	      </form>
-	    
 	    </div>
-	  </div>
 	</nav>
  		<div class="row">
    		<div class="col-2">
@@ -135,14 +133,8 @@
 				%>
 	   			</table>
    			</div>
-   		
-   		
-   		
-   		
-   		
-   		
-   		
    		</div>
+   		
    		<div class="col-10">
 			<!-- 상품 이미지 정보등 표시 -->
 			<%

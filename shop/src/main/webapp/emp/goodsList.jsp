@@ -83,12 +83,26 @@
 		.yo{
 				float:left;
 				margin: 50px;
+				width: 200px;
+				border: 1
 			}
 			
 		a{
 			text-decoration: none;
 			color: black;
 		}
+		.round {
+		
+			display:
+			inline-block;
+		
+			border-width:
+			1px;
+		
+			border-style:
+			solid;
+		}
+		
 	</style>
 </head>
 <body>
@@ -97,22 +111,38 @@
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
 
+	<div class="row">
+   		<div class="col-2">
+   			<div>
+	   			<table class="table">
+	   				<tr>
+	   					<td>
+	   						<a href="/shop/emp/goodsList.jsp" 
+	          					class="nav-link active" aria-current="page">전체</a>
+	   					</td>
+	   					<td></td>
+	   				</tr>
+	   			<%
+					for(HashMap m : categoryList) {
+				%>
+			          <tr>
+			          	<td>
+				          	<a class="nav-link" href="/shop/emp/goodsList.jsp?category=<%=(String)(m.get("category"))%>"><%=(String)(m.get("category"))%>
+				          		</a>
+			          	</td>
+			          	<td>
+			          		<a class="nav-link" href="/shop/emp/goodsList.jsp?category=<%=(String)(m.get("category"))%>">(<%=(Integer)(m.get("cnt"))%>)
+			          		</a>
+			          	</td>
+			          </tr>
+			    <%
+					}
+				%>
+	   			</table>
+   			</div>
+   		</div>
 	<!-- 서브메뉴 카테고리별 상품리스트 -->
-	<div class="container-fluid">
-  
-		<div>
-			<a href="/shop/emp/goodsList.jsp">전체</a>
-			<%
-				for(HashMap m : categoryList) {
-			%>
-					<a href="/shop/emp/goodsList.jsp?category=<%=(String)(m.get("category"))%>">
-						<%=(String)(m.get("category"))%>
-						(<%=(Integer)(m.get("cnt"))%>)
-					</a>	
-			<%		
-				}
-			%>
-		</div>
+		<div class="col-10">
 	
 		<div>
 		

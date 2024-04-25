@@ -125,12 +125,14 @@
 		}
 	</style>
 </head>
-<body>
-	
-	<div>
-		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
-	</div>
-	<div class="container">
+<body class="container bg-success">
+	<div class="row">
+		<div class="col-1"></div>
+		<div class="col-10 content bg-white shadow lgPgCenterDiv"><br>
+		<div>
+			<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
+		</div>
+		
 		<div class="m-4 d-flex justify-content-between">
 			<div>&nbsp;</div>
 			<h1>직원 리스트</h1>
@@ -192,6 +194,8 @@
 				</button>
 			</div>
 		</div>
+	</div>
+	<div class="col-1"></div>
 	</div>
 </body>
 </html>
