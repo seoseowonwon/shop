@@ -25,48 +25,30 @@
 %>    
 
 <%
-	//현재 페이지 값 
+
+
+//페이징
+	int totalCnt = EmpDAO.totalCnt();
+	System.out.println("totalCnt --> "+totalCnt);
+	
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	
-	// 한 페이지에 보이는 인원수
+	System.out.println("goodsList currentPage --> " + currentPage);
 	int rowPerPage = 10;
-	
-	// DB에서 시작 페이지 값 설정 = (현재 페이지-1) *   한 페이지에 보이는 인원수
-	int startRow = (currentPage-1)* rowPerPage;
-	
-	
-	//전체 회원의 수 구하기
-	String sql3 = "SELECT count(*) cnt FROM emp";
-	PreparedStatement stmt3 = null;
-	ResultSet rs3 = null; 
-	stmt3 = conn.prepareStatement(sql3);
-	rs3 = stmt3.executeQuery();
-	
-	// 전체 회원수 
-	int totalRow = 0;
-	
-	if(rs3.next()){
-		totalRow = rs3.getInt("cnt");
+	int startRow = 10 * currentPage;
+	int lastPage = 0;
+	if (totalCnt % 10 == 0){
+		 lastPage = totalCnt / 10 - 1;
+	} else {
+		lastPage = totalCnt / 10;
 	}
+	System.out.println("startRow --> "+startRow);
+	System.out.println("lastPage --> "+lastPage);
 	
-	// 마지막 페이지 계산하기 = 전체 회원수 / 한 페이지에서 보이는 인원수
-	int lastPage = totalRow / rowPerPage;
+	ArrayList<HashMap<String, Object>> list = EmpDAO.seeAll(startRow, rowPerPage);
 	
-	//인원수가 남을 때 마지막 페이지는 +1 해준다. 
-	//예) 회원수가 11명이라면 한 페이지당 10명씩 1페이지가 나와야하는데 1명이 더 있기 때문에 총 페이지는 2페이지가 된다.
-	if(totalRow % rowPerPage != 0){
-		lastPage = lastPage +1 ;
-	}
-	
-	
-	//System.out.println(lastPage + " lastPage 회원보기 페이지");
-	//System.out.println(totalRow + "<----totalRow 전체 회원수 ");
-	//System.out.println(rowPerPage + "<----rowPerPage 한 페이지당 보고싶은 인원수");
-	//System.out.println(startRow);
-	//System.out.println(rowPerPage);
 %>
 
 <!-- model layer -->
@@ -102,7 +84,6 @@
 		list.add(m);
 	}
 	*/
-	ArrayList<HashMap<String, Object>> list = EmpDAO.seeAll();
 	
 	// JDBC API 사용이 끝났다면 DB자원들을 반납
 %>    

@@ -10,6 +10,29 @@ import shop.DBHelper;
 // 1. 메서드 사용하는 이유는 짧게 호출하기 위해 2. 반복되는 것을 호출할려고
 
 public class EmpDAO {
+	
+	//페이징을 위해 전체 수를 구하는 구문
+	public static int totalCnt () throws Exception{
+		int cnt = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT COUNT(*) cnt"
+				+ " FROM emp";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = null;
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			cnt = rs.getInt("cnt");
+			System.out.println("EmpDAO cnt --> "+cnt);
+		}
+		
+		return cnt;
+	}
+	
+	
+	
+	
 	//empList ON OFF 값을 업데이트 해주는 구문
 	public static int updateState (String active, String empId) throws Exception{
 		int row = 0;
@@ -145,20 +168,23 @@ public class EmpDAO {
 	// Param : x
 	// return : ArrayList
 	//empList의 전체 출력 empId	empName	empJob	hireDate	active등 출력
-	public static ArrayList<HashMap<String, Object>> seeAll() throws Exception{
+	public static ArrayList<HashMap<String, Object>> seeAll(int startRow, int rowPerPage) throws Exception{
 		
 		Connection conn = DBHelper.getConnection();
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		PreparedStatement stmt = null; 
 		String sql = "SELECT"
 				+ " emp_id empId,"
 				+ " emp_name empName,"
 				+ " emp_job empJob,"
 				+ " hire_date hireDate,"
 				+ " active"
-				+ " FROM emp";
-		PreparedStatement stmt = null; 	
-		ResultSet rs = null;
+				+ " FROM emp"
+				+ " LIMIT ?, ?";
 		stmt=conn.prepareStatement(sql);
+		stmt.setInt(1, startRow);
+		stmt.setInt(2, rowPerPage);
+		ResultSet rs = null;
 		rs = stmt.executeQuery();
 		HashMap<String, Object> resultMap = null;
 		while(rs.next()){
@@ -180,6 +206,7 @@ public class EmpDAO {
 	public static void main(String[] args) throws Exception {
 		System.out.println( "EmpDAO empLogin의 resultMap값--> "+EmpDAO.empLogin("admin","1234"));
 		System.out.println( "EmpDAO empOne의 resultMap값--> "+EmpDAO.empOne("admin"));
+		System.out.println( EmpDAO.totalCnt());
 	}
 	
 }
