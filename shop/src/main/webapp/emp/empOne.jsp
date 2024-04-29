@@ -52,16 +52,23 @@
 	<title></title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-	<div>
-		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
-	</div>
-	<div class="container-fluid">
+<body class="container bg-success">
+	
 	<div class="row">
-    		<div class="col-4"></div>
-    		<div class="col-4">
-				<table border="1"  class="table table-hover">
-					
+		<div class="col-1 row-1"></div>
+		<div class="col-10 content bg-white shadow lgPgCenterDiv;"
+			style="height: 100vh">
+			<br>
+			<div>
+				<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
+			</div>
+		<div class="m-4 d-flex justify-content-between"></div>
+		
+		<div>
+			<h3>내 정보</h3>
+			<table border="1"  class="table table-hover">
+			
+			
 						<tr>
 							<th>아이디</th><td><%=(String)(list.get("empId"))%></td>
 						</tr>
@@ -82,7 +89,14 @@
 						</tr>
 				</table>
 			</div>
-			<div class="col-4"></div>
+		<div class="col-1 row-1"></div>
+		</div>
 		</div>
 </body>
 </html>
+
+
+
+
+
+		
